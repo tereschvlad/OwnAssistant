@@ -62,7 +62,7 @@ namespace OwnAssistantCommon.Models
         /// <param name="login"></param>
         /// <param name="email"></param>
         /// <returns></returns>
-        public async Task<User> GetUserByLoginAsync(string login, string email) => await _context.Users.FirstOrDefaultAsync(x => x.Login == login || x.Email == email);
+        public async Task<User> GetUserByLoginAsync(string login) => await _context.Users.FirstOrDefaultAsync(x => x.Login == login || x.Email == login);
 
         /// <summary>
         /// Get user by id

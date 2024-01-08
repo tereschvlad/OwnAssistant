@@ -33,9 +33,8 @@ namespace OwnAssistantCommon.Interfaces
         /// Get user by login or email
         /// </summary>
         /// <param name="login"></param>
-        /// <param name="email"></param>
         /// <returns></returns>
-        Task<User> GetUserByLoginAsync(string login, string email);
+        Task<User> GetUserByLoginAsync(string login);
 
         /// <summary>
         /// Get user by id

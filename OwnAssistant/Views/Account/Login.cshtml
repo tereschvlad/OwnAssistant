@@ -1,25 +1,21 @@
 ﻿@model OwnAssistant.Models.LoginViewModel
-@{
-}
 
-<div class="bd-main">
-    <div class="row text-center">
-        <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" class="col-6 border p-3 ">
-            <div class="col-12">
-                <label asp-for="Login" class="form-label"></label>
-                <input asp-for="Login" class="form-control" />
-            </div>
+<div class="row justify-content-center">
+    <form asp-antiforgery="true" asp-controller="Account" asp-action="Login" class="col-6 border p-3 ">
+        <div class="col-12">
+            <label asp-for="Login" class="form-label"></label>
+            <input asp-for="Login" class="form-control" />
+        </div>
 
-            <div class="col-12">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" />
-            </div>
+        <div class="col-12">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" />
+        </div>
 
-            <div class="col-12 mt-2 text-center">
-                <button class="btn btn-primary ">Authorie</button>
-            </div>
-        </form>
-    </div>
+        <div class="col-12 mt-2 text-center">
+            <button class="btn btn-primary ">Login</button>
+        </div>
+    </form>
 </div>
 
    

@@ -6,6 +6,7 @@ using Serilog;
 using System.Globalization;
 using OwnAssistant.Utils;
 using OwnAssistantCommon.Interfaces;
+using OwnAssistantCommon.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,8 @@ try
     #region Customer services
 
     builder.Services.AddScoped<IDbRepository, DbRepository>();
-    
+    builder.Services.AddScoped<IAccountService, AccountService>();
+
     #endregion
 
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
