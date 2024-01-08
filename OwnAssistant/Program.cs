@@ -5,6 +5,7 @@ using OwnAssistantCommon.Models;
 using Serilog;
 using System.Globalization;
 using OwnAssistant.Utils;
+using OwnAssistantCommon.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,12 @@ try
     // Add services to the container.
     builder.Services.AddRazorPages();
     builder.Services.AddControllersWithViews();
+
+    #region Customer services
+
+    builder.Services.AddScoped<IDbRepository, DbRepository>();
+    
+    #endregion
 
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
     {
