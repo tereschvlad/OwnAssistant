@@ -41,7 +41,7 @@ namespace OwnAssistant.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        private async Task SetAuthorizeCookie(User user)
+        private async Task SetAuthorizeCookie(UserModel user)
         {
             var claims = new List<Claim>
             {

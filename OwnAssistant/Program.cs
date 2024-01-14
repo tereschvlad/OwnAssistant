@@ -28,6 +28,7 @@ try
 
     builder.Services.AddScoped<IDbRepository, DbRepository>();
     builder.Services.AddScoped<IAccountService, AccountService>();
+    builder.Services.AddScoped<ICustomerTaskService, CustomerTaskService>();
 
     #endregion
 

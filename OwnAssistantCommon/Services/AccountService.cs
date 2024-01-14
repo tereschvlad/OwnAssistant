@@ -27,7 +27,7 @@ namespace OwnAssistantCommon.Services
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public async Task<User> VerifyUserAsync(string login, string password)
+        public async Task<UserModel> VerifyUserAsync(string login, string password)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace OwnAssistantCommon.Services
                 else return null;
 
             }
-            catch
+            catch(Exception ex)
             {
                 //Add log
             }

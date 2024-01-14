@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace OwnAssistantCommon.Models
 {
@@ -10,32 +10,36 @@ namespace OwnAssistantCommon.Models
 
         }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
-        public DbSet<Role> Roles { get; set; }
+        public DbSet<RoleModel> Roles { get; set; }
 
-        public DbSet<CustomerTask> Tasks { get; set; }
+        public DbSet<CustomerTaskModel> Tasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //Table Roles
+            modelBuilder.Entity<RoleModel>().ToTable("Roles");
+
             //Table Users
-            modelBuilder.Entity<User>().HasOne<Role>(x => x.Role).WithMany().OnDelete(DeleteBehavior.SetNull);
-            modelBuilder.Entity<User>().HasMany<CustomerTask>(x => x.CreatedTasks).WithOne(x => x.CreatorUser).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<User>().HasMany<CustomerTask>(x => x.PerformingTasks).WithMany(x => x.PerformingUsers);
-            modelBuilder.Entity<User>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            modelBuilder.Entity<UserModel>().ToTable("Users");
+            modelBuilder.Entity<UserModel>().HasOne<RoleModel>(x => x.Role).WithMany().OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<UserModel>().HasMany<CustomerTaskModel>(x => x.CreatedTasks).WithOne(x => x.CreatorUser).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserModel>().HasMany<CustomerTaskModel>(x => x.PerformingTasks).WithMany(x => x.PerformingUsers);
+            modelBuilder.Entity<UserModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             //Table Tasks
-            modelBuilder.Entity<CustomerTask>().HasOne<User>(x => x.CreatorUser).WithMany(x => x.CreatedTasks).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<CustomerTask>().HasMany<User>(x => x.PerformingUsers).WithMany(x => x.PerformingTasks);
-            modelBuilder.Entity<CustomerTask>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            modelBuilder.Entity<CustomerTaskModel>().ToTable("Tasks");
+            modelBuilder.Entity<CustomerTaskModel>().HasOne<UserModel>(x => x.CreatorUser).WithMany(x => x.CreatedTasks).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<CustomerTaskModel>().HasMany<UserModel>(x => x.PerformingUsers).WithMany(x => x.PerformingTasks);
+            modelBuilder.Entity<CustomerTaskModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
     }
 
     /// <summary>
     /// Db model for project user
     /// </summary>
-    [Table("Users")]
-    public class User
+    public class UserModel
     {
         public Guid Id { get; set; }
 
@@ -49,18 +53,17 @@ namespace OwnAssistantCommon.Models
 
         public Guid? RoleId { get; set; }
 
-        public Role Role { get; set; }
+        public RoleModel Role { get; set; }
 
-        public List<CustomerTask> CreatedTasks { get; set; }
+        public List<CustomerTaskModel> CreatedTasks { get; set; }
 
-        public List<CustomerTask> PerformingTasks { get; set; }
+        public List<CustomerTaskModel> PerformingTasks { get; set; }
     }
 
     /// <summary>
     /// Db model for role by user
     /// </summary>
-    [Table("Roles")]
-    public class Role
+    public class RoleModel
     {
         public Guid Id { get; set; }
 
@@ -70,8 +73,7 @@ namespace OwnAssistantCommon.Models
     /// <summary>
     /// Db model for tasks
     /// </summary>
-    [Table("Tasks")]
-    public class CustomerTask
+    public class CustomerTaskModel
     {
         public Guid Id { get; set; }
 
@@ -87,9 +89,9 @@ namespace OwnAssistantCommon.Models
 
         public Guid CreatorId { get; set; }
 
-        public User CreatorUser { get; set; }
+        public UserModel CreatorUser { get; set; }
 
-        public List<User> PerformingUsers { get; set; }
+        public List<UserModel> PerformingUsers { get; set; }
 
     }
 }
