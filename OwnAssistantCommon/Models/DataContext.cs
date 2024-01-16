@@ -25,13 +25,13 @@ namespace OwnAssistantCommon.Models
             modelBuilder.Entity<UserModel>().ToTable("Users");
             modelBuilder.Entity<UserModel>().HasOne<RoleModel>(x => x.Role).WithMany().OnDelete(DeleteBehavior.SetNull);
             modelBuilder.Entity<UserModel>().HasMany<CustomerTaskModel>(x => x.CreatedTasks).WithOne(x => x.CreatorUser).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserModel>().HasMany<CustomerTaskModel>(x => x.PerformingTasks).WithMany(x => x.PerformingUsers);
+            modelBuilder.Entity<UserModel>().HasMany<CustomerTaskModel>(x => x.PerformingTasks).WithMany(x => x.PerformingUsers).UsingEntity("CustomerTaskUser");
             modelBuilder.Entity<UserModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             //Table Tasks
             modelBuilder.Entity<CustomerTaskModel>().ToTable("Tasks");
             modelBuilder.Entity<CustomerTaskModel>().HasOne<UserModel>(x => x.CreatorUser).WithMany(x => x.CreatedTasks).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<CustomerTaskModel>().HasMany<UserModel>(x => x.PerformingUsers).WithMany(x => x.PerformingTasks);
+            modelBuilder.Entity<CustomerTaskModel>().HasMany<UserModel>(x => x.PerformingUsers).WithMany(x => x.PerformingTasks).UsingEntity("CustomerTaskUser"); ;
             modelBuilder.Entity<CustomerTaskModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
         }
     }

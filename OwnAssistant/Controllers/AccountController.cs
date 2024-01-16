@@ -45,6 +45,7 @@ namespace OwnAssistant.Controllers
         {
             var claims = new List<Claim>
             {
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Login),
                 new Claim(ClaimTypes.Role, user.Role.Name)
             };
