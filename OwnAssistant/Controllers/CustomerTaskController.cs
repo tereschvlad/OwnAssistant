@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OwnAssistant.Models;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
 using OwnAssistantCommon.Services;
@@ -21,6 +22,7 @@ namespace OwnAssistant.Controllers
         /// Get tasks for user
         /// </summary>
         /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             List<CustomerTaskModel> tasks = new List<CustomerTaskModel>();
@@ -40,6 +42,18 @@ namespace OwnAssistant.Controllers
             }
 
             return View(tasks);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreateTask()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTask(CustomerTaskViewModel model)
+        {
+            return View(model);
         }
     }
 }
