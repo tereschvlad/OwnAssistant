@@ -8,6 +8,6 @@
 
         public DateTime? TaskDate { get; set; }
 
-        public List<string> ExecutorLogin { get; set; }
+        public string PerformedUsers { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using OwnAssistant.Models;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
@@ -11,11 +12,13 @@ namespace OwnAssistant.Controllers
     {
         private readonly ILogger<CustomerTaskController> _logger;
         private readonly ICustomerTaskService _customerTaskService;
+        private readonly IAccountService _accountService;
 
-        public CustomerTaskController(ILogger<CustomerTaskController> logger, ICustomerTaskService customerTaskService) 
+        public CustomerTaskController(ILogger<CustomerTaskController> logger, ICustomerTaskService customerTaskService, IAccountService accountService) 
         {
             _logger = logger;
             _customerTaskService = customerTaskService;
+            _accountService = accountService;
         }
 
         /// <summary>
@@ -47,6 +50,25 @@ namespace OwnAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateTask()
         {
+            ViewBag.PossibleUsers = new List<SelectListItem>()
+            {
+                new SelectListItem()
+                {
+                    Text = "Test",
+                    Value = "Test"
+                },
+                new SelectListItem()
+                {
+                    Text = "Test1",
+                    Value = "Test1"
+                },
+                new SelectListItem()
+                {
+                    Text = "Test2",
+                    Value = "Test2"
+                }
+            };
+
             return View();
         }
 
