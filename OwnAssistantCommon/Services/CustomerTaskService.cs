@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OwnAssistantCommon.Services
 {
@@ -36,7 +31,7 @@ namespace OwnAssistantCommon.Services
             }
             catch(Exception ex)
             {
-                //Add correct log
+                _logger.LogError(ex, "Error getting task for user");
             }
 
             return new List<CustomerTaskModel>();
@@ -55,10 +50,27 @@ namespace OwnAssistantCommon.Services
             }
             catch (Exception ex)
             {
-                //Add correct log
+                _logger.LogError(ex, "Error getting performed tasks");
             }
 
             return new List<CustomerTaskModel>();
+        }
+
+        /// <summary>
+        /// Create customer task
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public async Task CreateCustomerTaskAsync(CustomerTaskModel task)
+        {
+            try
+            {
+                await _dbRepository.AddTaskAsync(task);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error of creating tasks");
+            }
         }
     }
 }

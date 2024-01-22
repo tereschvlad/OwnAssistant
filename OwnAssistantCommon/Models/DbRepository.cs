@@ -17,6 +17,43 @@ namespace OwnAssistantCommon.Models
             _context = context;
         }
 
+        #region For users
+
+        /// <summary>
+        /// Add user into Db
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task AddUserAsync(UserModel user)
+        {
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Get user by login or email
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
+        public async Task<UserModel> GetUserByLoginAsync(string login) => await _context.Users.FirstOrDefaultAsync(x => x.Login == login || x.Email == login);
+
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<UserModel> GetUserByIdAsync(Guid id) => await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+        /// <summary>
+        /// Get list of user name
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> GetListUserNameAsync() => await _context.Users.Select(x => x.Login).ToListAsync();
+
+        #endregion
+
+        #region For tasks
+
         /// <summary>
         /// Add only one task
         /// </summary>
@@ -40,36 +77,12 @@ namespace OwnAssistantCommon.Models
         }
 
         /// <summary>
-        /// Add user into Db
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public async Task AddUserAsync(UserModel user)
-        {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-        }
-
-        /// <summary>
         /// Get list of tasks by filter
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
         public async Task<List<CustomerTaskModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskModel, bool>> expression) => await _context.Tasks.Where(expression).ToListAsync();
 
-        /// <summary>
-        /// Get user by login or email
-        /// </summary>
-        /// <param name="login"></param>
-        /// <returns></returns>
-        public async Task<UserModel> GetUserByLoginAsync(string login) => await _context.Users.FirstOrDefaultAsync(x => x.Login == login || x.Email == login);
-
-        /// <summary>
-        /// Get user by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<UserModel> GetUserByIdAsync(Guid id) => await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
-
+        #endregion
     }
 }

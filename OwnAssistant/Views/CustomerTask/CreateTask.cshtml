@@ -1,7 +1,7 @@
 ﻿@model CustomerTaskViewModel
 @{
 }
-<form>
+<form asp-controller="CustomerTask" asp-action="CreateTask" method="post" asp-antiforgery="true">
     <div class="row">   
         <div class="col-6 pb-3">
             <div class="col pb-3">

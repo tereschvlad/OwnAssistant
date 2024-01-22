@@ -1,12 +1,6 @@
-﻿using Microsoft.Build.Framework;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OwnAssistantCommon.Services
 {
@@ -44,9 +38,28 @@ namespace OwnAssistantCommon.Services
             catch(Exception ex)
             {
                 //Add log
+                _logger.LogError(ex, "Error of verify user");
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Get list user name
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<string>> GetListUserNameAsync()
+        {
+            try
+            {
+                return await _dbRepository.GetListUserNameAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error of getting list of users");
+            }
+
+            return new List<string>();
         }
     }
 }

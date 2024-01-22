@@ -10,9 +10,25 @@
 </div>
 <!--Move to html helper with paging-->
 <div class="row">
-    <div class="col pb-3">
-        <a class="btn btn-primary w-25" asp-controller="CustomerTask" asp-action="CreateTask">Create Task</a>
-    </div>
+    <nav class="navbar navbar-expand bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mb-2">
+                    <li class="px-2">
+                        <a class="btn btn-secondary" asp-controller="CustomerTask" asp-action="Index" asp-route-isCreated="true">Created tasks</a>
+                    </li>
+                    <li class="px-2">
+                        <a class="btn btn-secondary" asp-controller="CustomerTask" asp-action="Index" asp-route-isCreated="false">Task for performe</a>
+                    </li>
+                </ul>
+                
+            </div>
+
+            <div class="d-flex mb-2">
+                <a class="btn btn-primary" asp-controller="CustomerTask" asp-action="CreateTask">Create Task</a>
+            </div>
+        </div>
+    </nav>
 </div>
 <div class="row">
     <div class="col">

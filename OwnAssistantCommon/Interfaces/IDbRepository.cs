@@ -8,26 +8,14 @@ namespace OwnAssistantCommon.Interfaces
     /// </summary>
     public interface IDbRepository
     {
+        #region For users
+
         /// <summary>
         /// Add user into Db
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
         Task AddUserAsync(UserModel user);
-
-        /// <summary>
-        /// Add several tasks into Db
-        /// </summary>
-        /// <param name="tasks"></param>
-        /// <returns></returns>
-        Task AddTasksAsync(List<CustomerTaskModel> tasks);
-
-        /// <summary>
-        /// Add only one task
-        /// </summary>
-        /// <param name="task"></param>
-        /// <returns></returns>
-        Task AddTaskAsync(CustomerTaskModel task);
 
         /// <summary>
         /// Get user by login or email
@@ -44,10 +32,38 @@ namespace OwnAssistantCommon.Interfaces
         Task<UserModel> GetUserByIdAsync(Guid id);
 
         /// <summary>
+        /// Get list of user name
+        /// </summary>
+        /// <returns></returns>
+        Task<List<string>> GetListUserNameAsync();
+
+        #endregion
+
+        #region For Tasks
+
+        /// <summary>
+        /// Add several tasks into Db
+        /// </summary>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        Task AddTasksAsync(List<CustomerTaskModel> tasks);
+
+        /// <summary>
+        /// Add only one task
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        Task AddTaskAsync(CustomerTaskModel task);
+
+
+
+        /// <summary>
         /// Get list of tasks by filter
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
         Task<List<CustomerTaskModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskModel, bool>> expression);
+
+        #endregion
     }
 }

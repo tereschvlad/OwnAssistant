@@ -20,5 +20,12 @@ namespace OwnAssistantCommon.Interfaces
         /// <param name="userId"></param>
         /// <returns></returns>
         Task<List<CustomerTaskModel>> GetPerformedListTaskForUserAsync(Guid userId);
+
+        /// <summary>
+        /// Create customer task
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        Task CreateCustomerTaskAsync(CustomerTaskModel task);
     }
 }

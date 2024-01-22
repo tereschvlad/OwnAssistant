@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using OwnAssistant.Models;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
-using OwnAssistantCommon.Services;
 using System.Security.Claims;
 
 namespace OwnAssistant.Controllers
@@ -26,7 +25,7 @@ namespace OwnAssistant.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool isCreated = false)
         {
             List<CustomerTaskModel> tasks = new List<CustomerTaskModel>();
 
@@ -37,44 +36,56 @@ namespace OwnAssistant.Controllers
                 //Set test Id
                 userId = "DD1AFAB8-F852-435A-9653-6546559F8C39";
 
-                tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(new Guid(userId));
+                if(isCreated)
+                    tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(new Guid(userId));
+                else
+                    tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(new Guid(userId));
+
             }
             catch (Exception ex)
             {
-                //Add log
+                _logger.LogError(ex, "Error fetching list of task for user");
             }
 
             return View(tasks);
         }
 
+        /// <summary>
+        /// View for creating tasks
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> CreateTask()
         {
-            ViewBag.PossibleUsers = new List<SelectListItem>()
+            var users = await _accountService.GetListUserNameAsync();
+
+            ViewBag.PossibleUsers = users.Select(x => new SelectListItem()
             {
-                new SelectListItem()
-                {
-                    Text = "Test",
-                    Value = "Test"
-                },
-                new SelectListItem()
-                {
-                    Text = "Test1",
-                    Value = "Test1"
-                },
-                new SelectListItem()
-                {
-                    Text = "Test2",
-                    Value = "Test2"
-                }
-            };
+                Text = x,
+                Value = x
+            });
 
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTask(CustomerTaskViewModel model)
         {
+            if(ModelState.IsValid)
+            {
+                await _customerTaskService.CreateCustomerTaskAsync(new CustomerTaskModel()
+                {
+                    CreatorId = new Guid("DD1AFAB8-F852-435A-9653-6546559F8C39"),
+                    //CreatorId = new Guid(User.FindFirstValue(ClaimTypes.Sid)),
+                    Text = model.Text,
+                    TaskDate = model.TaskDate,
+                    Title = model.Title
+                });
+
+                return RedirectToAction("Index");
+            }
+
             return View(model);
         }
     }
