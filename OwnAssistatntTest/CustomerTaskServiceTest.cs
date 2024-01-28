@@ -1,4 +1,5 @@
-﻿using OwnAssistantCommon.Interfaces;
+﻿using Microsoft.AspNetCore.Authorization;
+using OwnAssistantCommon.Interfaces;
 using Xunit;
 
 namespace OwnAssistatntTest

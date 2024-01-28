@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OwnAssistant.Models;
+using OwnAssistantCommon;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
 using System.Security.Claims;
 
 namespace OwnAssistant.Controllers
 {
+    [Authorize]
     public class CustomerTaskController : Controller
     {
         private readonly ILogger<CustomerTaskController> _logger;
@@ -21,13 +24,71 @@ namespace OwnAssistant.Controllers
         }
 
         /// <summary>
-        /// Get tasks for user
+        /// Get page for customer tasks
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Index(bool isCreated = false)
+        public async Task<IActionResult> Tasks()
         {
-            List<CustomerTaskModel> tasks = new List<CustomerTaskModel>();
+            var model = new JrnlTasksViewModel()
+            {
+                Filter = new FilterJrnlTasksViewModel()
+                {
+                    StartDate = DateTime.Today.AddDays(-1),
+                    EndDate = DateTime.Today.AddDays(1),
+                    TaskType = 1,
+                    UserName = User.Identity.Name
+                }
+            };
+
+            var users = await _accountService.GetListUserNameAsync();
+
+            model.ListUserLogin = users.Select(x => new SelectListItem()
+            {
+                Text = x,
+                Value = x
+            });
+
+            model.ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
+            {
+                Text = GeneralUtils.GetEnumDescription(x),
+                Value = ((int)x).ToString()
+            });
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Get tasks for user
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Tasks(FilterJrnlTasksViewModel filter)
+        {
+            var model = new JrnlTasksViewModel()
+            {
+                Filter = filter
+            };
+            
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var users = await _accountService.GetListUserNameAsync();
+
+            model.ListUserLogin = users.Select(x => new SelectListItem()
+            {
+                Text = x,
+                Value = x
+            });
+
+            model.ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
+            {
+                Text = GeneralUtils.GetEnumDescription(x),
+                Value = ((int)x).ToString()
+            });
 
             try
             {
@@ -36,10 +97,10 @@ namespace OwnAssistant.Controllers
                 //Set test Id
                 userId = "DD1AFAB8-F852-435A-9653-6546559F8C39";
 
-                if(isCreated)
-                    tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(new Guid(userId));
+                if(filter.TaskType == (int)CustomerTaskType.Created)
+                    model.Tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(new Guid(userId));
                 else
-                    tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(new Guid(userId));
+                    model.Tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(new Guid(userId));
 
             }
             catch (Exception ex)
@@ -47,7 +108,7 @@ namespace OwnAssistant.Controllers
                 _logger.LogError(ex, "Error fetching list of task for user");
             }
 
-            return View(tasks);
+            return View(model);
         }
 
         /// <summary>

@@ -35,7 +35,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        public async Task<UserModel> GetUserByLoginAsync(string login) => await _context.Users.FirstOrDefaultAsync(x => x.Login == login || x.Email == login);
+        public async Task<UserModel> GetUserByLoginAsync(string login) => await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Login == login || x.Email == login);
 
         /// <summary>
         /// Get user by id

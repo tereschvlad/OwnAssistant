@@ -34,7 +34,7 @@ try
 
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
     {
-        option.LoginPath = "/Authorize/Login";
+        option.LoginPath = "/Account/Login";
         option.ExpireTimeSpan = TimeSpan.FromMinutes(1);
         option.SlidingExpiration = true;
     });

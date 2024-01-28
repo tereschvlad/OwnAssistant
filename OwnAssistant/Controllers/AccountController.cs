@@ -5,6 +5,7 @@ using OwnAssistant.Models;
 using OwnAssistantCommon.Models;
 using System.Security.Claims;
 using OwnAssistantCommon.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OwnAssistant.Controllers
 {
@@ -41,6 +42,13 @@ namespace OwnAssistant.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
+        }
+
         private async Task SetAuthorizeCookie(UserModel user)
         {
             var claims = new List<Claim>
@@ -51,8 +59,6 @@ namespace OwnAssistant.Controllers
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties();
 
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
         }
