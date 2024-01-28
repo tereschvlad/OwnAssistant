@@ -94,9 +94,6 @@ namespace OwnAssistant.Controllers
             {
                 var userId = User.FindFirstValue(ClaimTypes.Sid);
 
-                //Set test Id
-                userId = "DD1AFAB8-F852-435A-9653-6546559F8C39";
-
                 if(filter.TaskType == (int)CustomerTaskType.Created)
                     model.Tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(new Guid(userId));
                 else
@@ -137,8 +134,7 @@ namespace OwnAssistant.Controllers
             {
                 await _customerTaskService.CreateCustomerTaskAsync(new CustomerTaskModel()
                 {
-                    CreatorId = new Guid("DD1AFAB8-F852-435A-9653-6546559F8C39"),
-                    //CreatorId = new Guid(User.FindFirstValue(ClaimTypes.Sid)),
+                    CreatorId = new Guid(User.FindFirstValue(ClaimTypes.Sid)),
                     Text = model.Text,
                     TaskDate = model.TaskDate,
                     Title = model.Title
