@@ -37,6 +37,26 @@ namespace OwnAssistantCommon.Services
             return new List<CustomerTaskModel>();
         }
 
+
+        /// <summary>
+        /// Get created list of tasks 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<CustomerTaskModel>> GetCreatedListTaskForUserAsync(string login)
+        {
+            try
+            {
+                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.CreatorUser.Login == login);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting task for user");
+            }
+
+            return new List<CustomerTaskModel>();
+        }
+
         /// <summary>
         /// Get tasks for performed for User
         /// </summary>
@@ -47,6 +67,25 @@ namespace OwnAssistantCommon.Services
             try
             {
                 return await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformingUsers.Any(y => y.Id == userId));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting performed tasks");
+            }
+
+            return new List<CustomerTaskModel>();
+        }
+
+        /// <summary>
+        /// Get tasks for performed for User
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<List<CustomerTaskModel>> GetPerformedListTaskForUserAsync(string login)
+        {
+            try
+            {
+                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformingUsers.Any(y => y.Login == login));
             }
             catch (Exception ex)
             {

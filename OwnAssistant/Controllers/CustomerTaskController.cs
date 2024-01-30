@@ -30,6 +30,9 @@ namespace OwnAssistant.Controllers
         [HttpGet]
         public async Task<IActionResult> Tasks()
         {
+            var users = await _accountService.GetListUserNameAsync();
+
+            //Initialize view object model
             var model = new JrnlTasksViewModel()
             {
                 Filter = new FilterJrnlTasksViewModel()
@@ -38,22 +41,18 @@ namespace OwnAssistant.Controllers
                     EndDate = DateTime.Today.AddDays(1),
                     TaskType = 1,
                     UserName = User.Identity.Name
-                }
+                },
+                ListUserLogin = users.Select(x => new SelectListItem()
+                {
+                    Text = x,
+                    Value = x
+                }),
+                ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
+                {
+                    Text = GeneralUtils.GetEnumDescription(x),
+                    Value = ((int)x).ToString()
+                })
             };
-
-            var users = await _accountService.GetListUserNameAsync();
-
-            model.ListUserLogin = users.Select(x => new SelectListItem()
-            {
-                Text = x,
-                Value = x
-            });
-
-            model.ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
-            {
-                Text = GeneralUtils.GetEnumDescription(x),
-                Value = ((int)x).ToString()
-            });
 
             return View(model);
         }
@@ -66,29 +65,28 @@ namespace OwnAssistant.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Tasks(FilterJrnlTasksViewModel filter)
         {
+            var users = await _accountService.GetListUserNameAsync();
+
+            //Initialize view object model
             var model = new JrnlTasksViewModel()
             {
-                Filter = filter
+                Filter = filter,
+                ListUserLogin = users.Select(x => new SelectListItem()
+                {
+                    Text = x,
+                    Value = x
+                }),
+                ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
+                {
+                    Text = GeneralUtils.GetEnumDescription(x),
+                    Value = ((int)x).ToString()
+                })
             };
-            
-            if(!ModelState.IsValid)
+
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
-            var users = await _accountService.GetListUserNameAsync();
-
-            model.ListUserLogin = users.Select(x => new SelectListItem()
-            {
-                Text = x,
-                Value = x
-            });
-
-            model.ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
-            {
-                Text = GeneralUtils.GetEnumDescription(x),
-                Value = ((int)x).ToString()
-            });
 
             try
             {
@@ -98,7 +96,6 @@ namespace OwnAssistant.Controllers
                     model.Tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(new Guid(userId));
                 else
                     model.Tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(new Guid(userId));
-
             }
             catch (Exception ex)
             {
