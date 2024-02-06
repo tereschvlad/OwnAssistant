@@ -46,14 +46,14 @@ namespace OwnAssistantCommon.Interfaces
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns></returns>
-        Task AddTasksAsync(List<CustomerTaskModel> tasks);
+        Task AddTasksAsync(List<CustomerTaskMainInfoModel> tasks);
 
         /// <summary>
         /// Add only one task
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        Task AddTaskAsync(CustomerTaskModel task);
+        Task AddTaskAsync(CustomerTaskMainInfoModel task);
 
 
 
@@ -62,7 +62,7 @@ namespace OwnAssistantCommon.Interfaces
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<List<CustomerTaskModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskModel, bool>> expression);
+        Task<List<CustomerTaskMainInfoModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoModel, bool>> expression);
 
         #endregion
     }

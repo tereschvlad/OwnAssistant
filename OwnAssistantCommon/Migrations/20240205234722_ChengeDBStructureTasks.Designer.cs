@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OwnAssistantCommon.Models;
 
@@ -11,9 +12,11 @@ using OwnAssistantCommon.Models;
 namespace OwnAssistantCommon.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240205234722_ChengeDBStructureTasks")]
+    partial class ChengeDBStructureTasks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,9 +64,6 @@ namespace OwnAssistantCommon.Migrations
 
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("NoteDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("TaskDate")
                         .HasColumnType("datetime2");
@@ -181,7 +181,7 @@ namespace OwnAssistantCommon.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("OwnAssistantCommon.Models.UserModel", "PerformingUser")
+                    b.HasOne("OwnAssistantCommon.Models.UserModel", "PerformingUsers")
                         .WithMany("PerformingTasks")
                         .HasForeignKey("PerformerId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -189,7 +189,7 @@ namespace OwnAssistantCommon.Migrations
 
                     b.Navigation("CreatorUser");
 
-                    b.Navigation("PerformingUser");
+                    b.Navigation("PerformingUsers");
                 });
 
             modelBuilder.Entity("OwnAssistantCommon.Models.UserModel", b =>

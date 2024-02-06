@@ -21,78 +21,43 @@ namespace OwnAssistantCommon.Services
         /// <summary>
         /// Get created list of tasks 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="login"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
         /// <returns></returns>
-        public async Task<List<CustomerTaskModel>> GetCreatedListTaskForUserAsync(Guid userId)
+        public async Task<List<CustomerTaskMainInfoModel>> GetCreatedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate)
         {
             try
             {
-                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.CreatorId == userId);
-            }
-            catch(Exception ex)
-            {
-                _logger.LogError(ex, "Error getting task for user");
-            }
-
-            return new List<CustomerTaskModel>();
-        }
-
-
-        /// <summary>
-        /// Get created list of tasks 
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<CustomerTaskModel>> GetCreatedListTaskForUserAsync(string login)
-        {
-            try
-            {
-                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.CreatorUser.Login == login);
+                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.CreatorUser.Login == login && x.CustomerTaskDateInfos.Any(y => y.TaskDate >= startDate && y.TaskDate <= endDate));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting task for user");
             }
 
-            return new List<CustomerTaskModel>();
+            return new List<CustomerTaskMainInfoModel>();
         }
 
         /// <summary>
         /// Get tasks for performed for User
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="login"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
         /// <returns></returns>
-        public async Task<List<CustomerTaskModel>> GetPerformedListTaskForUserAsync(Guid userId)
+        public async Task<List<CustomerTaskMainInfoModel>> GetPerformedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate)
         {
             try
             {
-                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformingUsers.Any(y => y.Id == userId));
+                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformingUser.Login == login && x.CustomerTaskDateInfos.Any(y => y.TaskDate >= startDate && y.TaskDate <= endDate));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error getting performed tasks");
             }
 
-            return new List<CustomerTaskModel>();
-        }
-
-        /// <summary>
-        /// Get tasks for performed for User
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<CustomerTaskModel>> GetPerformedListTaskForUserAsync(string login)
-        {
-            try
-            {
-                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformingUsers.Any(y => y.Login == login));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting performed tasks");
-            }
-
-            return new List<CustomerTaskModel>();
+            return new List<CustomerTaskMainInfoModel>();
         }
 
         /// <summary>
@@ -100,7 +65,7 @@ namespace OwnAssistantCommon.Services
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public async Task CreateCustomerTaskAsync(CustomerTaskModel task)
+        public async Task CreateCustomerTaskAsync(CustomerTaskMainInfoModel task)
         {
             try
             {

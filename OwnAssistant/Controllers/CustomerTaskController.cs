@@ -90,12 +90,14 @@ namespace OwnAssistant.Controllers
 
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.Sid);
-
-                if(filter.TaskType == (int)CustomerTaskType.Created)
-                    model.Tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(new Guid(userId));
-                else
-                    model.Tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(new Guid(userId));
+                //var login = User.FindFirstValue(ClaimTypes.Name);
+                if (!String.IsNullOrEmpty(login))
+                {
+                    if (filter.TaskType == (int)CustomerTaskType.Created)
+                        model.Tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(filter.UserName, filter.StartDate, filter.EndDate);
+                    else
+                        model.Tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(filter.UserName, filter.StartDate, filter.EndDate);
+                }
             }
             catch (Exception ex)
             {
@@ -129,11 +131,10 @@ namespace OwnAssistant.Controllers
         {
             if(ModelState.IsValid)
             {
-                await _customerTaskService.CreateCustomerTaskAsync(new CustomerTaskModel()
+                await _customerTaskService.CreateCustomerTaskAsync(new CustomerTaskMainInfoModel()
                 {
                     CreatorId = new Guid(User.FindFirstValue(ClaimTypes.Sid)),
                     Text = model.Text,
-                    TaskDate = model.TaskDate,
                     Title = model.Title
                 });
 

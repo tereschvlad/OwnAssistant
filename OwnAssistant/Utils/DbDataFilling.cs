@@ -80,107 +80,215 @@ namespace OwnAssistant.Utils
                 context.SaveChanges();
             }
 
-            if(!context.Tasks.Any())
+            if (!context.MainInfoTasks.Any())
             {
 
-                
+
 
                 var user1 = context.Users.FirstOrDefault(x => x.Id == new Guid("dda5b335-580f-414c-b8a2-80f3523950e6"));
                 var user2 = context.Users.FirstOrDefault(x => x.Id == new Guid("52fefe38-b35a-4540-a85d-56294ac86fc0"));
                 var user3 = context.Users.FirstOrDefault(x => x.Id == new Guid("dd1afab8-f852-435a-9653-6546559f8c39"));
                 var user4 = context.Users.FirstOrDefault(x => x.Id == new Guid("18d4f302-9131-4e8e-a6d7-d2d72c5a4000"));
 
-                context.Tasks.AddRange(new List<CustomerTaskModel>()
+                var main1 = Guid.NewGuid();
+                var main2 = Guid.NewGuid();
+                var main3 = Guid.NewGuid();
+                var main4 = Guid.NewGuid();
+                var main5 = Guid.NewGuid();
+                var main6 = Guid.NewGuid();
+
+                context.MainInfoTasks.AddRange(new List<CustomerTaskMainInfoModel>()
                 {
-                    new CustomerTaskModel() 
+                    new CustomerTaskMainInfoModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = main1,
                         Title = "Task 1",
                         Text = "Description for Task 1",
                         CrtDate = DateTime.Now,
-                        TaskDate = DateTime.Now.AddDays(2),
-                        CloseDate = null,
                         CreatorUser = user1,
-                        PerformingUsers = new List<UserModel>
+                        PerformingUser = user2,
+                        CustomerTaskDateInfos = new List<CustomerTaskDateInfoModel>()
                         {
-                             user2, 
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main1,
+                                TaskDate = DateTime.Now.AddDays(1)
+                            },
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main1,
+                                TaskDate = DateTime.Now.AddDays(2)
+                            }
+                        },
+                        CustomerTaskCheckpointInfos = new List<CustomerTaskCheckpointInfo>()
+                        {
+                            new CustomerTaskCheckpointInfo()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main1,
+                                Lat = 2,
+                                Long = 3,
+                                Note = "Test11"
+                            }
                         }
                     },
-                    new CustomerTaskModel()
+                    new CustomerTaskMainInfoModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = main2,
                         Title = "Task 2",
                         Text = "Description for Task 2",
                         CrtDate = DateTime.Now,
-                        TaskDate = DateTime.Now.AddDays(5),
-                        CloseDate = null,
                         CreatorUser = user2,
-                        PerformingUsers = new List<UserModel>
+                        PerformingUser = user4,
+                        CustomerTaskDateInfos = new List<CustomerTaskDateInfoModel>()
                         {
-                           user1,
-                           user4,
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main2,
+                                TaskDate = DateTime.Now.AddDays(1)
+                            }
+                        },
+                        CustomerTaskCheckpointInfos = new List<CustomerTaskCheckpointInfo>()
+                        {
+                            new CustomerTaskCheckpointInfo()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main2,
+                                Lat = 2,
+                                Long = 3,
+                                Note = "Test21"
+                            }
                         }
                     },
-                    new CustomerTaskModel()
+                    new CustomerTaskMainInfoModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = main3,
                         Title = "Task 3",
                         Text = "Description for Task 3",
                         CrtDate = DateTime.Now,
-                        TaskDate = DateTime.Now.AddDays(3),
-                        CloseDate = null,
                         CreatorUser = user3,
-                        PerformingUsers = new List<UserModel>
+                        PerformingUser = user4,
+                        CustomerTaskDateInfos = new List<CustomerTaskDateInfoModel>()
                         {
-                            user2,
-                            user4,
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main3,
+                                TaskDate = DateTime.Now.AddDays(1)
+                            },
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main3,
+                                TaskDate = DateTime.Now.AddDays(3)
+                            },
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main3,
+                                TaskDate = DateTime.Now.AddDays(5)
+                            }
+                        },
+                        CustomerTaskCheckpointInfos = new List<CustomerTaskCheckpointInfo>()
+                        {
+                            new CustomerTaskCheckpointInfo()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main3,
+                                Lat = 2,
+                                Long = 3,
+                                Note = "Test21"
+                            }
                         }
                     },
-                    new CustomerTaskModel()
+                    new CustomerTaskMainInfoModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = main4,
                         Title = "Task 4",
                         Text = "Description for Task 4",
                         CrtDate = DateTime.Now,
-                        TaskDate = DateTime.Now.AddDays(1),
-                        CloseDate = null,
                         CreatorUser = user4,
-                        PerformingUsers = new List<UserModel>
+                        PerformingUser = user3,
+                        CustomerTaskDateInfos = new List<CustomerTaskDateInfoModel>()
                         {
-                            user1,
-                            user3,
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main4,
+                                TaskDate = DateTime.Now.AddDays(3)
+                            }
+                        },
+                        CustomerTaskCheckpointInfos = new List<CustomerTaskCheckpointInfo>()
+                        {
+                            new CustomerTaskCheckpointInfo()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main4,
+                                Lat = 2,
+                                Long = 3,
+                                Note = "Test21"
+                            }
                         }
                     },
-                    new CustomerTaskModel()
+                    new CustomerTaskMainInfoModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = main5,
                         Title = "Task 5",
                         Text = "Description for Task 5",
                         CrtDate = DateTime.Now,
-                        TaskDate = DateTime.Now.AddDays(4),
-                        CloseDate = null,
                         CreatorUser = user1,
-                        PerformingUsers = new List<UserModel>
+                        PerformingUser = user2,
+                        CustomerTaskDateInfos = new List<CustomerTaskDateInfoModel>()
                         {
-                            user2,
-                            user3,
-                            user4,
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main5,
+                                TaskDate = DateTime.Now.AddDays(10)
+                            }
+                        },
+                        CustomerTaskCheckpointInfos = new List<CustomerTaskCheckpointInfo>()
+                        {
+                            new CustomerTaskCheckpointInfo()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main5,
+                                Lat = 2,
+                                Long = 3,
+                                Note = "Test21"
+                            }
                         }
                     },
-                    new CustomerTaskModel()
+                    new CustomerTaskMainInfoModel()
                     {
-                        Id = Guid.NewGuid(),
+                        Id = main6,
                         Title = "Task 6",
                         Text = "Description for Task 6",
                         CrtDate = DateTime.Now,
-                        TaskDate = DateTime.Now.AddDays(7),
-                        CloseDate = null,
                         CreatorUser = user2,
-                        PerformingUsers = new List<UserModel>
+                        PerformingUser = user1,
+                        CustomerTaskDateInfos = new List<CustomerTaskDateInfoModel>()
                         {
-                            user1,
-                            user3,
-                            user4,
+                            new CustomerTaskDateInfoModel()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main6,
+                                TaskDate = DateTime.Now.AddDays(5)
+                            }
+                        },
+                        CustomerTaskCheckpointInfos = new List<CustomerTaskCheckpointInfo>()
+                        {
+                            new CustomerTaskCheckpointInfo()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerTaskMainId = main6,
+                                Lat = 2,
+                                Long = 3,
+                                Note = "Test21"
+                            }
                         }
                     }
                 });

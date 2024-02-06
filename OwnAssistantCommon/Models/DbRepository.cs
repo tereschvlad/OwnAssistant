@@ -59,7 +59,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public async Task AddTaskAsync(CustomerTaskModel task)
+        public async Task AddTaskAsync(CustomerTaskMainInfoModel task)
         {
             await _context.AddAsync(task);
             await _context.SaveChangesAsync();
@@ -70,7 +70,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns></returns>
-        public async Task AddTasksAsync(List<CustomerTaskModel> tasks)
+        public async Task AddTasksAsync(List<CustomerTaskMainInfoModel> tasks)
         {
             await _context.AddRangeAsync(tasks);
             await _context.SaveChangesAsync();
@@ -81,7 +81,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public async Task<List<CustomerTaskModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskModel, bool>> expression) => await _context.Tasks.Where(expression).ToListAsync();
+        public async Task<List<CustomerTaskMainInfoModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoModel, bool>> expression) => await _context.MainInfoTasks.Where(expression).ToListAsync();
 
         #endregion
     }

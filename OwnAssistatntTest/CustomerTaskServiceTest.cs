@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using OwnAssistantCommon.Interfaces;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace OwnAssistatntTest
@@ -13,11 +14,11 @@ namespace OwnAssistatntTest
             var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
 
             //Act
-            var task = await taskServ.GetPerformedListTaskForUserAsync(new Guid("DD1AFAB8-F852-435A-9653-6546559F8C39"));
+            var tasks = await taskServ.GetPerformedListTaskForUserAsync("bob_jones", new DateTime(2024, 1, 1), DateTime.Now);
 
             //Accept
-            Assert.NotNull(task);
-            Assert.True(task.Any());
+            Assert.NotNull(tasks);
+            Assert.True(tasks.Any());
         }
 
         [Fact]
@@ -27,10 +28,11 @@ namespace OwnAssistatntTest
             var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
 
             //Act
-            var task = await taskServ.GetCreatedListTaskForUserAsync(new Guid("52FEFE38-B35A-4540-A85D-56294AC86FC0"));
+            var tasks = await taskServ.GetCreatedListTaskForUserAsync("bob_jones", new DateTime(2024, 1, 1), DateTime.Now);
 
             //Accept
-            Assert.NotNull(task);
+            Assert.NotNull(tasks);
+            Assert.True(tasks.Any());
         }
     }
 }

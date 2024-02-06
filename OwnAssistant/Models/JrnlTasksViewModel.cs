@@ -12,7 +12,7 @@ namespace OwnAssistant.Models
     {
         public FilterJrnlTasksViewModel Filter { get; set; }
 
-        public List<CustomerTaskModel> Tasks { get; set; }
+        public List<CustomerTaskMainInfoModel> Tasks { get; set; }
 
         public IEnumerable<SelectListItem> ListUserLogin { get; set; }
 

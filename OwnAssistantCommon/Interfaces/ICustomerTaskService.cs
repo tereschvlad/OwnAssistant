@@ -10,22 +10,26 @@ namespace OwnAssistantCommon.Interfaces
         /// <summary>
         /// Get created list of tasks 
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="login"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
         /// <returns></returns>
-        Task<List<CustomerTaskModel>> GetCreatedListTaskForUserAsync(Guid userId);
+        Task<List<CustomerTaskMainInfoModel>> GetCreatedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
 
         /// <summary>
         /// Get tasks for performed for User
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="login"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
         /// <returns></returns>
-        Task<List<CustomerTaskModel>> GetPerformedListTaskForUserAsync(Guid userId);
+        Task<List<CustomerTaskMainInfoModel>> GetPerformedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
 
         /// <summary>
         /// Create customer task
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        Task CreateCustomerTaskAsync(CustomerTaskModel task);
+        Task CreateCustomerTaskAsync(CustomerTaskMainInfoModel task);
     }
 }
