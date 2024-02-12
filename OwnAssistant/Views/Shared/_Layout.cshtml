@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - OwnAssistant</title>
     <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/leaflet/leaflet.min.css"/>
+    <link rel="stylesheet" href="~/lib/leaflet.fullscreen/Control.FullScreen.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OwnAssistant.styles.css" asp-append-version="true" />
+    <script src="~/lib/leaflet/leaflet.min.js" asp-append-version="true"></script>
+    <script src="~/lib/leaflet.fullscreen/Control.FullScreen.min.js" asp-append-version="true"></script>
+    <script src="~/js/CustomerTasks.js" asp-append-version="true"></script>
 </head>
 <body class="bg-light">
     <header>
@@ -34,7 +39,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

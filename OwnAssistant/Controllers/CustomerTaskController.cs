@@ -91,7 +91,7 @@ namespace OwnAssistant.Controllers
             try
             {
                 //var login = User.FindFirstValue(ClaimTypes.Name);
-                if (!String.IsNullOrEmpty(login))
+                if (!String.IsNullOrEmpty(filter.UserName))
                 {
                     if (filter.TaskType == (int)CustomerTaskType.Created)
                         model.Tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(filter.UserName, filter.StartDate, filter.EndDate);

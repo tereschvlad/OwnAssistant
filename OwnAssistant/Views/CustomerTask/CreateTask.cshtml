@@ -25,8 +25,16 @@
             <label asp-for="Text" class="form-label"></label>
             <textarea asp-for="Text" class="form-control"></textarea>
         </div>
+        <div class="col-12 pb-3">
+            <div id="map" style="height:500px;" class="w-50">
+            </div>
+        </div>
         <div class="col text-center">
             <button class="btn btn-primary w-50">Add Task</button>
         </div>
     </div>
 </form>
+
+<script>
+    tasksManager.initCrtTask();
+</script>
