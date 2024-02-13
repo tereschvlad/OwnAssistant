@@ -129,8 +129,7 @@ namespace OwnAssistant.Utils
                                 Id = Guid.NewGuid(),
                                 CustomerTaskMainId = main1,
                                 Lat = 2,
-                                Long = 3,
-                                Note = "Test11"
+                                Long = 3
                             }
                         }
                     },
@@ -158,8 +157,7 @@ namespace OwnAssistant.Utils
                                 Id = Guid.NewGuid(),
                                 CustomerTaskMainId = main2,
                                 Lat = 2,
-                                Long = 3,
-                                Note = "Test21"
+                                Long = 3
                             }
                         }
                     },
@@ -199,8 +197,7 @@ namespace OwnAssistant.Utils
                                 Id = Guid.NewGuid(),
                                 CustomerTaskMainId = main3,
                                 Lat = 2,
-                                Long = 3,
-                                Note = "Test21"
+                                Long = 3
                             }
                         }
                     },
@@ -228,8 +225,7 @@ namespace OwnAssistant.Utils
                                 Id = Guid.NewGuid(),
                                 CustomerTaskMainId = main4,
                                 Lat = 2,
-                                Long = 3,
-                                Note = "Test21"
+                                Long = 3
                             }
                         }
                     },
@@ -257,8 +253,7 @@ namespace OwnAssistant.Utils
                                 Id = Guid.NewGuid(),
                                 CustomerTaskMainId = main5,
                                 Lat = 2,
-                                Long = 3,
-                                Note = "Test21"
+                                Long = 3
                             }
                         }
                     },
@@ -286,8 +281,7 @@ namespace OwnAssistant.Utils
                                 Id = Guid.NewGuid(),
                                 CustomerTaskMainId = main6,
                                 Lat = 2,
-                                Long = 3,
-                                Note = "Test21"
+                                Long = 3
                             }
                         }
                     }

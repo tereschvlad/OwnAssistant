@@ -10,12 +10,11 @@ let tasksManager = {
         }).addTo(map);
 
         map.off('click').on('click', (e) => {
-            //markers.forEach((val, idx, arr) => {
-
-            //});
-
             markers.push(e.latlng);
-            L.marker(e.latlng).addTo(map);
+            let marker = L.marker(e.latlng).addTo(map);
+            marker.on('click', (e) => {
+                map.removeLayer(e.target);
+            });
         });
     }
 };

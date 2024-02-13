@@ -137,8 +137,6 @@ namespace OwnAssistantCommon.Models
 
         public CustomerTaskMainInfoModel CustomerTaskMainInfo { get; set; }
 
-        public string Note { get; set; }
-
         public decimal Lat { get; set; }
 
         public decimal Long { get; set; }
