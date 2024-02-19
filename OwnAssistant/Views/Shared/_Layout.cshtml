@@ -11,7 +11,12 @@
     <link rel="stylesheet" href="~/OwnAssistant.styles.css" asp-append-version="true" />
     <script src="~/lib/leaflet/leaflet.min.js" asp-append-version="true"></script>
     <script src="~/lib/leaflet.fullscreen/Control.FullScreen.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="~/js/CustomerTasks.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 </head>
 <body class="bg-light">
     <header>
@@ -50,9 +55,7 @@
             &copy; 2023 - OwnAssistant - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

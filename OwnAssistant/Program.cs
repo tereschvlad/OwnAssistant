@@ -22,7 +22,7 @@ try
 
     // Add services to the container.
     builder.Services.AddRazorPages();
-    builder.Services.AddControllersWithViews();
+    builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 
     #region Customer services
 
@@ -35,7 +35,7 @@ try
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
     {
         option.LoginPath = "/Account/Login";
-        option.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(10);
         option.SlidingExpiration = true;
     });
     builder.Services.AddAuthorization();

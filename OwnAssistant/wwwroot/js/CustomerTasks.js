@@ -1,4 +1,5 @@
 ﻿let markers = [];
+let map;
 
 let tasksManager = {
     initCrtTask: function() {
@@ -16,5 +17,52 @@ let tasksManager = {
                 map.removeLayer(e.target);
             });
         });
+
+        $('#customerTasksForm').on('submit', function (e) {
+            e.preventDefault();
+            if (!$(this).valid()) {
+                return;
+            }
+
+            let formData = new FormData(this);
+            let data = {
+                Checkpoints: [],
+                Arr:[]
+            };
+
+            
+            formData.forEach((val, key) => {
+                data[key] = val;
+            });
+
+            map.eachLayer((layer) => {
+                if (layer instanceof L.Marker) {
+                    data.Checkpoints.push({
+                        Lat: layer.getLatLng().lat,
+                        Long: layer.getLatLng().lng
+                    });
+                }
+            });
+
+            fetch('/CustomerTask/CreateTask', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            }).then(responce => {
+                //location.reload();
+            });            
+        });
     }
 };
+
+let CustomerRepeationType = {
+    None: 0,
+    Weekdays: 1,
+    Weekends: 2,
+    WithoutWeekends: 3,
+    EveryDays: 4,
+    EveryWeeks: 5,
+    EveryMounths: 6
+}

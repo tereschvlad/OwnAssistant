@@ -1,29 +1,45 @@
 ﻿@model CustomerTaskViewModel
 @{
 }
-<form asp-controller="CustomerTask" asp-action="CreateTask" method="post" asp-antiforgery="true">
+<form id="customerTasksForm" asp-controller="CustomerTask" asp-action="CreateTask" method="post">
     <div class="row">   
         <div class="col-6 pb-3">
             <div class="col pb-3">
                 <label asp-for="Title" class="form-label"></label>
                 <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
             <div class="col pb-3">
-                <div class="row">
-                    <div class="col">
-                        <label asp-for="TaskDate" class="form-label"></label>
-                        <input asp-for="TaskDate" class="form-control" />
-                    </div>
-                    <div class="col">
-                        <label asp-for="PerformedUsers" class="form-label"></label>
-                        <select class="form-select" asp-for="PerformedUsers" asp-items="@ViewBag.PossibleUsers" ></select>
-                    </div>
-                </div>
+                <label asp-for="Text" class="form-label"></label>
+                <textarea asp-for="Text" class="form-control"></textarea>
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
         </div>
         <div class="col-6 pb-3">
-            <label asp-for="Text" class="form-label"></label>
-            <textarea asp-for="Text" class="form-control"></textarea>
+            <div class="row pb-3">
+                <div class="col">
+                    <label asp-for="PerformedUsers" class="form-label"></label>
+                    <select class="form-select" asp-for="PerformedUsers" asp-items="@ViewBag.PossibleUsers"></select>
+                </div>
+                <div class="col">
+                    <label asp-for="TaskDate" class="form-label"></label>
+                    <input asp-for="TaskDate" class="form-control" />
+                </div>
+                <div class="col">
+                    <label asp-for="PerformedUsers" class="form-label"></label>
+                    <select class="form-select" asp-for="PerformedUsers" asp-items="@ViewBag.RepeatedTypes"></select>
+                </div>
+            </div>
+            <div class="row d-none" id="repeatPeriodBlock">
+                <div class="col">
+                    <label asp-for="DateFrom" class="form-label"></label>
+                    <input asp-for="DateFrom" class="form-control" />
+                </div>
+                <div class="col">
+                    <label asp-for="DateTo" class="form-label"></label>
+                    <input asp-for="DateTo" class="form-control" />
+                </div>
+            </div>
         </div>
         <div class="col-12 pb-3">
             <div id="map" style="height:500px;">

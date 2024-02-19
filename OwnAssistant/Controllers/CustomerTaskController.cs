@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using OwnAssistant.Models;
@@ -122,26 +123,42 @@ namespace OwnAssistant.Controllers
                 Value = x
             });
 
+            ViewBag.RepeatedTypes = Enum.GetValues(typeof(CustomerTaskRepeationType)).Cast<CustomerTaskRepeationType>().Select(x => new SelectListItem()
+            {
+                    Text = GeneralUtils.GetEnumDescription(x),
+                    Value = ((int)x).ToString()
+            });
+
             return View();
         }
 
+        //QuickGrid
+        //TODO: Add antiforgerytoken
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTask(CustomerTaskViewModel model)
         {
-            if(ModelState.IsValid)
+            try
             {
-                await _customerTaskService.CreateCustomerTaskAsync(new CustomerTaskMainInfoModel()
-                {
-                    CreatorId = new Guid(User.FindFirstValue(ClaimTypes.Sid)),
-                    Text = model.Text,
-                    Title = model.Title
-                });
+                
+                //if(ModelState.IsValid)
+                //{
+                //    //await _customerTaskService.CreateCustomerTaskAsync(new CustomerTaskMainInfoModel()
+                //    //{
+                //    //    CreatorId = new Guid(User.FindFirstValue(ClaimTypes.Sid)),
+                //    //    Text = model.Text,
+                //    //    Title = model.Title
+                //    //});
 
-                return RedirectToAction("Index");
+                //    return RedirectToAction("Index");
+                //}
+
+            }
+            catch (Exception ex)
+            {
+
             }
 
-            return View(model);
+            return Ok();
         }
     }
 }
