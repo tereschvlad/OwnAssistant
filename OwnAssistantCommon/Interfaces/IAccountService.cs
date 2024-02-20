@@ -10,7 +10,7 @@ namespace OwnAssistantCommon.Interfaces
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Task<UserModel> VerifyUserAsync(string login, string password);
+        Task<UserDbModel> VerifyUserAsync(string login, string password);
 
         /// <summary>
         /// Get list user name

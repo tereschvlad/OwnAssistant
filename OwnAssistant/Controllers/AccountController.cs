@@ -49,7 +49,7 @@ namespace OwnAssistant.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        private async Task SetAuthorizeCookie(UserModel user)
+        private async Task SetAuthorizeCookie(UserDbModel user)
         {
             var claims = new List<Claim>
             {

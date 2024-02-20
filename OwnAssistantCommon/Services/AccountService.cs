@@ -21,7 +21,7 @@ namespace OwnAssistantCommon.Services
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public async Task<UserModel> VerifyUserAsync(string login, string password)
+        public async Task<UserDbModel> VerifyUserAsync(string login, string password)
         {
             try
             {

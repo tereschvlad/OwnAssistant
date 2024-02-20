@@ -15,21 +15,21 @@ namespace OwnAssistantCommon.Interfaces
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Task AddUserAsync(UserModel user);
+        Task AddUserAsync(UserDbModel user);
 
         /// <summary>
         /// Get user by login or email
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        Task<UserModel> GetUserByLoginAsync(string login);
+        Task<UserDbModel> GetUserByLoginAsync(string login);
 
         /// <summary>
         /// Get user by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<UserModel> GetUserByIdAsync(Guid id);
+        Task<UserDbModel> GetUserByIdAsync(Guid id);
 
         /// <summary>
         /// Get list of user name
@@ -46,14 +46,14 @@ namespace OwnAssistantCommon.Interfaces
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns></returns>
-        Task AddTasksAsync(List<CustomerTaskMainInfoModel> tasks);
+        Task AddTasksAsync(List<CustomerTaskMainInfoDbModel> tasks);
 
         /// <summary>
         /// Add only one task
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        Task AddTaskAsync(CustomerTaskMainInfoModel task);
+        Task AddTaskAsync(CustomerTaskMainInfoDbModel task);
 
 
 
@@ -62,7 +62,7 @@ namespace OwnAssistantCommon.Interfaces
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        Task<List<CustomerTaskMainInfoModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoModel, bool>> expression);
+        Task<List<CustomerTaskMainInfoDbModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoDbModel, bool>> expression);
 
         #endregion
     }

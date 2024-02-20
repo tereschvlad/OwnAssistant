@@ -135,27 +135,17 @@ namespace OwnAssistant.Controllers
         //QuickGrid
         //TODO: Add antiforgerytoken
         [HttpPost]
-        public async Task<IActionResult> CreateTask(CustomerTaskViewModel model)
+        public async Task<IActionResult> CreateTask([FromBody]CustomerTaskViewModel model)
         {
             try
             {
-                
-                //if(ModelState.IsValid)
-                //{
-                //    //await _customerTaskService.CreateCustomerTaskAsync(new CustomerTaskMainInfoModel()
-                //    //{
-                //    //    CreatorId = new Guid(User.FindFirstValue(ClaimTypes.Sid)),
-                //    //    Text = model.Text,
-                //    //    Title = model.Title
-                //    //});
-
-                //    return RedirectToAction("Index");
-                //}
-
+                var userId = new Guid(User.FindFirstValue(ClaimTypes.Sid));
+                await _customerTaskService.CreateCustomerTaskAsync(model, userId);
             }
             catch (Exception ex)
             {
-
+                _logger.LogError(ex, "Error with adding new tasks");
+                return BadRequest();
             }
 
             return Ok();

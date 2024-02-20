@@ -24,7 +24,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task AddUserAsync(UserModel user)
+        public async Task AddUserAsync(UserDbModel user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -35,14 +35,14 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="login"></param>
         /// <returns></returns>
-        public async Task<UserModel> GetUserByLoginAsync(string login) => await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Login == login || x.Email == login);
+        public async Task<UserDbModel> GetUserByLoginAsync(string login) => await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Login == login || x.Email == login);
 
         /// <summary>
         /// Get user by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<UserModel> GetUserByIdAsync(Guid id) => await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<UserDbModel> GetUserByIdAsync(Guid id) => await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
         /// <summary>
         /// Get list of user name
@@ -59,7 +59,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        public async Task AddTaskAsync(CustomerTaskMainInfoModel task)
+        public async Task AddTaskAsync(CustomerTaskMainInfoDbModel task)
         {
             await _context.AddAsync(task);
             await _context.SaveChangesAsync();
@@ -70,7 +70,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns></returns>
-        public async Task AddTasksAsync(List<CustomerTaskMainInfoModel> tasks)
+        public async Task AddTasksAsync(List<CustomerTaskMainInfoDbModel> tasks)
         {
             await _context.AddRangeAsync(tasks);
             await _context.SaveChangesAsync();
@@ -81,7 +81,7 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public async Task<List<CustomerTaskMainInfoModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoModel, bool>> expression) => await _context.MainInfoTasks.Where(expression).ToListAsync();
+        public async Task<List<CustomerTaskMainInfoDbModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoDbModel, bool>> expression) => await _context.MainInfoTasks.Where(expression).ToListAsync();
 
         #endregion
     }

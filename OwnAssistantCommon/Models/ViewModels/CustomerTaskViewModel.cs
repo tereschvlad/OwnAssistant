@@ -15,13 +15,14 @@ namespace OwnAssistant.Models
 
         public string PerformedUsers { get; set; }
 
-        public CustomerTaskRepeationType RepeationType { get; set; }
+        public int RepeationType { get; set; }
 
         public DateTime? DateFrom { get; set; }
 
         public DateTime? DateTo { get; set; }
 
         public List<TaskCheckpointViewModel> Checkpoints { get; set; }
+
     }
 
     public class TaskCheckpointViewModel
@@ -42,16 +43,13 @@ namespace OwnAssistant.Models
         [Description("Only on weekends")]
         Weekends = 2,
 
-        [Description("Period without weekends")]
-        WithoutWeekends = 3,
-
         [Description("Every day")]
-        EveryDays = 4,
+        EveryDays = 3,
 
         [Description("Every weekend in choosed day")]
-        EveryWeeks = 5,
+        EveryWeeks = 4,
 
         [Description("Every mounth in choosed day")]
-        EveryMounths = 6
+        EveryMounths = 5
     }
 }

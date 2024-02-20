@@ -10,48 +10,50 @@ namespace OwnAssistantCommon.Models
 
         }
 
-        public DbSet<UserModel> Users { get; set; }
+        public DbSet<UserDbModel> Users { get; set; }
 
-        public DbSet<RoleModel> Roles { get; set; }
+        public DbSet<RoleDbModel> Roles { get; set; }
 
-        public DbSet<CustomerTaskMainInfoModel> MainInfoTasks { get; set; }
+        public DbSet<CustomerTaskMainInfoDbModel> MainInfoTasks { get; set; }
 
-        public DbSet<CustomerTaskDateInfoModel> DateInfoTasks { get; set; }
+        public DbSet<CustomerTaskDateInfoDbModel> DateInfoTasks { get; set; }
 
-        public DbSet<CustomerTaskCheckpointInfo> CheckpointInfoTasks { get; set; }
+        public DbSet<CustomerTaskCheckpointInfoDbModel> CheckpointInfoTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Roles
-            modelBuilder.Entity<RoleModel>().ToTable("Roles");
+            modelBuilder.Entity<RoleDbModel>().ToTable("Roles");
 
             //Users
-            modelBuilder.Entity<UserModel>().ToTable("Users");
-            modelBuilder.Entity<UserModel>().HasOne<RoleModel>(x => x.Role).WithMany().OnDelete(DeleteBehavior.SetNull);
-            modelBuilder.Entity<UserModel>().HasMany<CustomerTaskMainInfoModel>(x => x.CreatedTasks).WithOne(x => x.CreatorUser).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<UserModel>().HasMany<CustomerTaskMainInfoModel>(x => x.PerformingTasks).WithOne(x => x.PerformingUser).HasForeignKey(x => x.PerformerId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<UserModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            modelBuilder.Entity<UserDbModel>().ToTable("Users");
+            modelBuilder.Entity<UserDbModel>().HasOne<RoleDbModel>(x => x.Role).WithMany().OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<UserDbModel>().HasMany<CustomerTaskMainInfoDbModel>(x => x.CreatedTasks).WithOne(x => x.CreatorUser).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<UserDbModel>().HasMany<CustomerTaskMainInfoDbModel>(x => x.PerformingTasks).WithOne(x => x.PerformingUser).HasForeignKey(x => x.PerformerId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<UserDbModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             //Main info about tasks
-            modelBuilder.Entity<CustomerTaskMainInfoModel>().ToTable("MainInfoTasks");
-            modelBuilder.Entity<CustomerTaskMainInfoModel>().HasOne<UserModel>(x => x.CreatorUser).WithMany(x => x.CreatedTasks).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<CustomerTaskMainInfoModel>().HasOne<UserModel>(x => x.PerformingUser).WithMany(x => x.PerformingTasks).HasForeignKey(x => x.PerformerId).OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<CustomerTaskMainInfoModel>().HasMany<CustomerTaskDateInfoModel>(x => x.CustomerTaskDateInfos).WithOne(x => x.CustomerTaskMainInfo).HasForeignKey(x => x.CustomerTaskMainId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<CustomerTaskMainInfoModel>().HasMany<CustomerTaskCheckpointInfo>(x => x.CustomerTaskCheckpointInfos).WithOne(x => x.CustomerTaskMainInfo).HasForeignKey(x => x.CustomerTaskMainId).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<CustomerTaskMainInfoModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            modelBuilder.Entity<CustomerTaskMainInfoDbModel>().ToTable("MainInfoTasks");
+            modelBuilder.Entity<CustomerTaskMainInfoDbModel>().HasOne<UserDbModel>(x => x.CreatorUser).WithMany(x => x.CreatedTasks).HasForeignKey(x => x.CreatorId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<CustomerTaskMainInfoDbModel>().HasOne<UserDbModel>(x => x.PerformingUser).WithMany(x => x.PerformingTasks).HasForeignKey(x => x.PerformerId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<CustomerTaskMainInfoDbModel>().HasMany<CustomerTaskDateInfoDbModel>(x => x.CustomerTaskDateInfos).WithOne(x => x.CustomerTaskMainInfo).HasForeignKey(x => x.CustomerTaskMainId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<CustomerTaskMainInfoDbModel>().HasMany<CustomerTaskCheckpointInfoDbModel>(x => x.CustomerTaskCheckpointInfos).WithOne(x => x.CustomerTaskMainInfo).HasForeignKey(x => x.CustomerTaskMainId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<CustomerTaskMainInfoDbModel>().Property(x => x.CrtDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
             //Date info about tasks
-            modelBuilder.Entity<CustomerTaskDateInfoModel>().ToTable("DateInfoTasks");
+            modelBuilder.Entity<CustomerTaskDateInfoDbModel>().ToTable("DateInfoTasks");
 
             //Checkpoint info about tasks
-            modelBuilder.Entity<CustomerTaskCheckpointInfo>().ToTable("CheckpointInfoTasks");
+            modelBuilder.Entity<CustomerTaskCheckpointInfoDbModel>().ToTable("CheckpointInfoTasks");
+            modelBuilder.Entity<CustomerTaskCheckpointInfoDbModel>().Property(x => x.Lat).HasPrecision(23, 20);
+            modelBuilder.Entity<CustomerTaskCheckpointInfoDbModel>().Property(x => x.Long).HasPrecision(23, 20);
         }
     }
 
     /// <summary>
     /// Db model for project user
     /// </summary>
-    public class UserModel
+    public class UserDbModel
     {
         public Guid Id { get; set; }
 
@@ -65,17 +67,17 @@ namespace OwnAssistantCommon.Models
 
         public Guid? RoleId { get; set; }
 
-        public RoleModel Role { get; set; }
+        public RoleDbModel Role { get; set; }
 
-        public List<CustomerTaskMainInfoModel> CreatedTasks { get; set; }
+        public List<CustomerTaskMainInfoDbModel> CreatedTasks { get; set; }
 
-        public List<CustomerTaskMainInfoModel> PerformingTasks { get; set; }
+        public List<CustomerTaskMainInfoDbModel> PerformingTasks { get; set; }
     }
 
     /// <summary>
     /// Db model for role by user
     /// </summary>
-    public class RoleModel
+    public class RoleDbModel
     {
         public Guid Id { get; set; }
 
@@ -85,7 +87,7 @@ namespace OwnAssistantCommon.Models
     /// <summary>
     /// Db model for tasks (main info)
     /// </summary>
-    public class CustomerTaskMainInfoModel
+    public class CustomerTaskMainInfoDbModel
     {
         public Guid Id { get; set; }
 
@@ -97,45 +99,41 @@ namespace OwnAssistantCommon.Models
 
         public Guid CreatorId { get; set; }
 
-        public UserModel CreatorUser { get; set; }
+        public UserDbModel CreatorUser { get; set; }
 
         public Guid PerformerId { get; set; }
 
-        public UserModel PerformingUser { get; set; }
+        public UserDbModel PerformingUser { get; set; }
 
-        public List<CustomerTaskDateInfoModel> CustomerTaskDateInfos { get; set; }
+        public List<CustomerTaskDateInfoDbModel> CustomerTaskDateInfos { get; set; }
 
-        public List<CustomerTaskCheckpointInfo> CustomerTaskCheckpointInfos { get; set; }
+        public List<CustomerTaskCheckpointInfoDbModel> CustomerTaskCheckpointInfos { get; set; }
     }
 
     /// <summary>
     /// Db model for tasks (date info)
     /// </summary>
-    public class CustomerTaskDateInfoModel
+    public class CustomerTaskDateInfoDbModel
     {
         public Guid Id { get; set; }
 
         public Guid CustomerTaskMainId { get; set; }
 
-        public CustomerTaskMainInfoModel CustomerTaskMainInfo { get; set; }
+        public CustomerTaskMainInfoDbModel CustomerTaskMainInfo { get; set; }
 
         public DateTime? TaskDate { get; set; }
-
-        public DateTime NoteDate { get; set; }
-
-        public string Note { get; set; }
     }
 
     /// <summary>
     /// Db model for tasks (checkpoint info)
     /// </summary>
-    public class CustomerTaskCheckpointInfo
+    public class CustomerTaskCheckpointInfoDbModel
     {
         public Guid Id { get; set; }
 
         public Guid CustomerTaskMainId { get; set; }
 
-        public CustomerTaskMainInfoModel CustomerTaskMainInfo { get; set; }
+        public CustomerTaskMainInfoDbModel CustomerTaskMainInfo { get; set; }
 
         public decimal Lat { get; set; }
 

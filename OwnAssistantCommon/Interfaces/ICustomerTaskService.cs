@@ -1,4 +1,5 @@
-﻿using OwnAssistantCommon.Models;
+﻿using OwnAssistant.Models;
+using OwnAssistantCommon.Models;
 
 namespace OwnAssistantCommon.Interfaces
 {
@@ -14,7 +15,7 @@ namespace OwnAssistantCommon.Interfaces
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        Task<List<CustomerTaskMainInfoModel>> GetCreatedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
+        Task<List<CustomerTaskMainInfoDbModel>> GetCreatedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
 
         /// <summary>
         /// Get tasks for performed for User
@@ -23,13 +24,21 @@ namespace OwnAssistantCommon.Interfaces
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        Task<List<CustomerTaskMainInfoModel>> GetPerformedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
+        Task<List<CustomerTaskMainInfoDbModel>> GetPerformedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
 
         /// <summary>
         /// Create customer task
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        Task CreateCustomerTaskAsync(CustomerTaskMainInfoModel task);
+        Task CreateCustomerTaskAsync(CustomerTaskMainInfoDbModel task);
+
+        /// <summary>
+        /// Adding new customer tasks
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task CreateCustomerTaskAsync(CustomerTaskViewModel task, Guid userId);
     }
 }

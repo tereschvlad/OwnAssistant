@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OwnAssistantCommon.Models;
 
@@ -11,9 +12,11 @@ using OwnAssistantCommon.Models;
 namespace OwnAssistantCommon.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240220233555_EditTaskDateInfo")]
+    partial class EditTaskDateInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,12 +35,10 @@ namespace OwnAssistantCommon.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Lat")
-                        .HasPrecision(3, 20)
-                        .HasColumnType("decimal(3,20)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Long")
-                        .HasPrecision(3, 20)
-                        .HasColumnType("decimal(3,20)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
