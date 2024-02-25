@@ -45,6 +45,8 @@ namespace OwnAssistantCommon.Models
 
             //Checkpoint info about tasks
             modelBuilder.Entity<CustomerTaskCheckpointInfoDbModel>().ToTable("CheckpointInfoTasks");
+            modelBuilder.Entity<CustomerTaskCheckpointInfoDbModel>().Property(x => x.Lat).HasColumnType("numeric(26, 20)");
+            modelBuilder.Entity<CustomerTaskCheckpointInfoDbModel>().Property(x => x.Long).HasColumnType("numeric(26, 20)");
         }
     }
 

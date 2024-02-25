@@ -41,7 +41,6 @@
     </div>
 </form>
 
-
 <div class="row">
     <div class="col">
         <table class="table">
@@ -51,6 +50,9 @@
                     <th>Title</th>
                     <th>Text</th>
                     <th>CrtDate</th>
+                    <th>Creator</th>
+                    <th>Performer</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,6 +65,9 @@
                             <td>@Model.Tasks[i].Title</td>
                             <td>@Model.Tasks[i].Text</td>
                             <td>@Model.Tasks[i].CrtDate.ToString("dd.MM.yyyy hh:mm")</td>
+                            <td>@Model.Tasks[i].CreatorUser.Login</td>
+                            <td>@Model.Tasks[i].PerformingUser.Login</td>
+                            <td><a class="btn btn-primary" asp-controller="CustomerTask" asp-action="ViewTask" asp-route-id="@Model.Tasks[i].Id">View</a></td>
                         </tr>
                     }
                 }

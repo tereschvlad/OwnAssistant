@@ -40,5 +40,12 @@ namespace OwnAssistantCommon.Interfaces
         /// <param name="userId"></param>
         /// <returns></returns>
         Task CreateCustomerTaskAsync(CustomerTaskViewModel task, Guid userId);
+
+        /// <summary>
+        /// Get task by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<CustomerTaskMainInfoDbModel> GetCustomerTaskAsync(Guid id);
     }
 }

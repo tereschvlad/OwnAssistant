@@ -55,8 +55,6 @@ namespace OwnAssistantCommon.Interfaces
         /// <returns></returns>
         Task AddTaskAsync(CustomerTaskMainInfoDbModel task);
 
-
-
         /// <summary>
         /// Get list of tasks by filter
         /// </summary>
@@ -64,6 +62,12 @@ namespace OwnAssistantCommon.Interfaces
         /// <returns></returns>
         Task<List<CustomerTaskMainInfoDbModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoDbModel, bool>> expression);
 
+        /// <summary>
+        /// Get task by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<CustomerTaskMainInfoDbModel> GetCustomerTaskAsync(Guid id);
         #endregion
     }
 }

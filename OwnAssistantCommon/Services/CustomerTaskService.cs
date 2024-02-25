@@ -174,5 +174,13 @@ namespace OwnAssistantCommon.Services
                 _logger.LogError(ex, "Error of creating tasks");
             }
         }
+
+        /// <summary>
+        /// Get task by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<CustomerTaskMainInfoDbModel> GetCustomerTaskAsync(Guid id) => await _dbRepository.GetCustomerTaskAsync(id);
+
     }
 }

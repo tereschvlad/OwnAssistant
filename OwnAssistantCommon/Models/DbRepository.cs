@@ -81,8 +81,22 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <param name="expression"></param>
         /// <returns></returns>
-        public async Task<List<CustomerTaskMainInfoDbModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoDbModel, bool>> expression) => await _context.MainInfoTasks.Where(expression).ToListAsync();
+        public async Task<List<CustomerTaskMainInfoDbModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoDbModel, bool>> expression)
+        {
+            return await _context.MainInfoTasks.Include(x => x.PerformingUser).Include(x => x.CreatorUser)
+                                 .Where(expression).ToListAsync();
+        }
 
+        /// <summary>
+        /// Get task by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<CustomerTaskMainInfoDbModel> GetCustomerTaskAsync(Guid id)
+        {
+            return await _context.MainInfoTasks.Include(x => x.PerformingUser).Include(x => x.CreatorUser).Include(x => x.CustomerTaskDateInfos)
+                                 .Include(x => x.CustomerTaskCheckpointInfos).FirstOrDefaultAsync<CustomerTaskMainInfoDbModel>(x => x.Id == id);
+        }
         #endregion
     }
 }

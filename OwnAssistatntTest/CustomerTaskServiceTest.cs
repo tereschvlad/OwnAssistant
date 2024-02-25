@@ -34,5 +34,21 @@ namespace OwnAssistatntTest
             Assert.NotNull(tasks);
             Assert.True(tasks.Any());
         }
+
+        [Fact]
+        public async Task Getting_CustomerTask()
+        {
+            //Arrange
+            var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
+
+            //Act
+            var task = await taskServ.GetCustomerTaskAsync(new Guid("3A769FB7-C46C-435C-824F-0ADB536C9227"));
+
+            //Accept
+            Assert.NotNull(task);
+            Assert.NotNull(task.PerformingUser);
+            Assert.NotNull(task.CreatorUser);
+            Assert.NotNull(task.CustomerTaskDateInfos);
+        }
     }
 }

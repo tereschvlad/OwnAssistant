@@ -51,8 +51,24 @@ let tasksManager = {
                 },
                 body: JSON.stringify(data)
             }).then(responce => {
-                //location.reload();
+                if (responce.status === 200) {
+                    location.reload();
+                }
             });            
+        });
+    },
+    initViewTask: function (checkpoints) {
+        map = L.map('map', { fullscreenControl: true, }).setView([50.4579725, 30.5026167], 10);
+        debugger;
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(map);
+
+        debugger;
+
+        checkpoints.forEach(val => {
+            L.marker([val.Long, val.Lat]).addTo(map)
         });
     }
 };

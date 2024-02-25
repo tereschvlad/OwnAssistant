@@ -1,0 +1,52 @@
+﻿@using Newtonsoft.Json;
+@using OwnAssistantCommon.Models;
+@model CustomerTaskMainInfoDbModel
+@{
+}
+
+@if (Model == null)
+{
+    <h2>Data not find</h2>
+}
+else
+{
+    <div class="row pb-3">
+        <div class="col">
+            <p class="h4">Title</p>
+            <p>@Model.Title</p>
+        </div>
+        <div class="col">
+            <p class="h4">Text</p>
+            <p>@Model.Text</p>
+        </div>
+        <div class="col">
+            <p class="h4">Date create</p>
+            <p>@Model.CrtDate.ToString("dd.MM.yyyy hh:mm")</p>
+        </div>
+        <div class="col">
+            <p class="h4">Creator</p>
+            <p>@Model.CreatorUser.Login</p>
+        </div>
+        <div class="col">
+            <p class="h4">Performer</p>
+            <p>@Model.PerformingUser.Login</p>
+        </div>
+        <div class="col">
+            <p class="h4">Task date </p>
+            <p>@Model.CustomerTaskDateInfos.FirstOrDefault().TaskDate.Value.ToString("dd.MM.yyyy hh:mm")</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 pb-3">
+            <div id="map" style="height:500px;">
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        tasksManager.initViewTask();
+    </script>
+}
+
+

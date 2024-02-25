@@ -150,5 +150,27 @@ namespace OwnAssistant.Controllers
 
             return Ok();
         }
+
+        /// <summary>
+        /// View full task info
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> ViewTask(Guid id)
+        {
+            CustomerTaskMainInfoDbModel model = null;
+
+            try
+            {
+                model = await _customerTaskService.GetCustomerTaskAsync(id);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error of getting task");
+            }
+
+            return View(model);
+        }
     }
 }
