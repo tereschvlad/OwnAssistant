@@ -65,8 +65,6 @@ let tasksManager = {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        debugger;
-
         let checkpoints = JSON.parse(json);
 
         checkpoints.forEach(val => {
