@@ -56,6 +56,19 @@ let tasksManager = {
                 }
             });            
         });
+
+        $('#RepeationType').on('change', function (e) {
+            var repeatType = $(e.target).val();
+
+            debugger;
+
+            if (repeatType != CustomerRepeationType.None) {
+                $('#repeatPeriodBlock').removeClass('d-none');
+            }
+            else {
+                $('#repeatPeriodBlock').addClass('d-none');
+            }
+        });
     },
     initViewTask: function (json) {
         map = L.map('map', { fullscreenControl: true, }).setView([50.4579725, 30.5026167], 10);
