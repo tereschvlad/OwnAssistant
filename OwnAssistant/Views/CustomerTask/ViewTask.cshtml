@@ -45,7 +45,7 @@ else
 
     <script>
 
-        tasksManager.initViewTask();
+        tasksManager.initViewTask('@Json.Serialize(Model.CustomerTaskCheckpointInfos.Select(x => new { Lat = x.Lat, Long = x.Long }))');
     </script>
 }
 

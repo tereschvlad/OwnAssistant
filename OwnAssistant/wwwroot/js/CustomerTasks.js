@@ -57,7 +57,7 @@ let tasksManager = {
             });            
         });
     },
-    initViewTask: function (checkpoints) {
+    initViewTask: function (json) {
         map = L.map('map', { fullscreenControl: true, }).setView([50.4579725, 30.5026167], 10);
         debugger;
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -67,8 +67,11 @@ let tasksManager = {
 
         debugger;
 
+        let checkpoints = JSON.parse(json);
+
         checkpoints.forEach(val => {
-            L.marker([val.Long, val.Lat]).addTo(map)
+            var latlng = L.latLng(val.lat, val.long);
+            L.marker(latlng).addTo(map)
         });
     }
 };
