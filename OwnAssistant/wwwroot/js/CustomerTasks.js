@@ -60,8 +60,6 @@ let tasksManager = {
         $('#RepeationType').on('change', function (e) {
             var repeatType = $(e.target).val();
 
-            debugger;
-
             if (repeatType != CustomerRepeationType.None) {
                 $('#repeatPeriodBlock').removeClass('d-none');
             }
