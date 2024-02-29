@@ -83,7 +83,7 @@ namespace OwnAssistantCommon.Models
         /// <returns></returns>
         public async Task<List<CustomerTaskMainInfoDbModel>> GetListOfTaskByFilterAsync(Expression<Func<CustomerTaskMainInfoDbModel, bool>> expression)
         {
-            return await _context.MainInfoTasks.Include(x => x.PerformingUser).Include(x => x.CreatorUser)
+            return await _context.MainInfoTasks.Include(x => x.PerformingUser).Include(x => x.CreatorUser).Include(x => x.CustomerTaskDateInfos)
                                  .Where(expression).ToListAsync();
         }
 

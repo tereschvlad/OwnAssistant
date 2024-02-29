@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using OwnAssistant.Models;
+using OwnAssistant.Models.ViewModel;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
-
 namespace OwnAssistantCommon.Services
 {
     /// <summary>
@@ -59,6 +59,39 @@ namespace OwnAssistantCommon.Services
             }
 
             return new List<CustomerTaskMainInfoDbModel>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<JrnlCustomerTaskViewModel>> GetListCustomerTasksAsync(string login, DateTime startDate, DateTime endDate, bool isCreate)
+        {
+            try
+            {
+                var tasks = await _dbRepository.GetListOfTaskByFilterAsync(x => (isCreate ? x.CreatorUser.Login == login : x.PerformingUser.Login == login) &&
+                                                                                x.CustomerTaskDateInfos.Any(y => y.TaskDate >= startDate && y.TaskDate <= endDate));
+
+                return tasks.Select(x => x.CustomerTaskDateInfos.Where(y => y.TaskDate >= startDate && y.TaskDate <= endDate)
+                                                                  .Select(y => new JrnlCustomerTaskViewModel()
+                                                                  {
+                                                                      CrtDate = x.CrtDate,
+                                                                      Title = x.Title,
+                                                                      TaskDate = y.TaskDate.Value,//TODO: correction this
+                                                                      CreatorUser = x.CreatorUser.Login,
+                                                                      PerformerUser = x.PerformingUser.Login,
+                                                                      MainCustomerTaskId = x.Id
+                                                                  })).SelectMany(x => x);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error getting tasks");
+            }
+
+            return Enumerable.Empty<JrnlCustomerTaskViewModel>();
         }
 
         /// <summary>
