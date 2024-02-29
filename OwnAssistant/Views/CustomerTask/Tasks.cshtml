@@ -67,7 +67,7 @@
                             <td>@Model.Tasks[i].CrtDate.ToString("dd.MM.yyyy hh:mm")</td>
                             <td>@Model.Tasks[i].CreatorUser.Login</td>
                             <td>@Model.Tasks[i].PerformingUser.Login</td>
-                            <td><a class="btn btn-primary" asp-controller="CustomerTask" asp-action="ViewTask" asp-route-id="@Model.Tasks[i].Id">View</a></td>
+                            <td><a class="btn btn-link" asp-controller="CustomerTask" asp-action="ViewTask" asp-route-id="@Model.Tasks[i].Id">View</a></td>
                         </tr>
                     }
                 }

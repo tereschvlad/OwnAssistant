@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OwnAssistant.Models
 {
-    public class CustomerTaskViewModel
+    public class EditCustomerTaskViewModel
     {
         [Required(ErrorMessage = "Title: shouldn't empty")]
         public string Title { get; set; }

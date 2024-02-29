@@ -135,7 +135,7 @@ namespace OwnAssistant.Controllers
         //QuickGrid
         //TODO: Add antiforgerytoken
         [HttpPost]
-        public async Task<IActionResult> CreateTask([FromBody]CustomerTaskViewModel model)
+        public async Task<IActionResult> CreateTask([FromBody]EditCustomerTaskViewModel model)
         {
             try
             {
@@ -171,6 +171,53 @@ namespace OwnAssistant.Controllers
             }
 
             return View(model);
+        }
+
+        /// <summary>
+        /// Copying customer task
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> CopyTask(Guid id)
+        {
+            EditCustomerTaskViewModel customerTask = null;
+
+            try
+            {
+                var task = await _customerTaskService.GetCustomerTaskAsync(id);
+                var users = await _accountService.GetListUserNameAsync();
+
+                ViewBag.PossibleUsers = users.Select(x => new SelectListItem()
+                {
+                    Text = x,
+                    Value = x,
+                    Selected = x == task.PerformingUser.Login
+                });
+
+                ViewBag.RepeatedTypes = Enum.GetValues(typeof(CustomerTaskRepeationType)).Cast<CustomerTaskRepeationType>().Select(x => new SelectListItem()
+                {
+                    Text = GeneralUtils.GetEnumDescription(x),
+                    Value = ((int)x).ToString()
+                });
+
+                customerTask = new EditCustomerTaskViewModel()
+                {
+                    Text = task.Text,
+                    Title = task.Title,
+                    Checkpoints = task.CustomerTaskCheckpointInfos.Select(x => new TaskCheckpointViewModel()
+                    {
+                        Lat = x.Lat,
+                        Long = x.Long
+                    }).ToList()
+                };
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error of copy task");
+            }
+
+            return View("CreateTask", customerTask);
         }
     }
 }

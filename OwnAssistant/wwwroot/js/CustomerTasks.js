@@ -2,13 +2,24 @@
 let map;
 
 let tasksManager = {
-    initCrtTask: function() {
+    initCrtTask: function (json) {
         map = L.map('map', { fullscreenControl: true, }).setView([50.4579725, 30.5026167], 10);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
+
+        let checkpoints = JSON.parse(json);
+
+        checkpoints.forEach(val => {
+            let latlng = L.latLng(val.lat, val.long);
+            let marker = L.marker(latlng).addTo(map);
+
+            marker.on('click', (e) => {
+                map.removeLayer(e.target);
+            });
+        });
 
         map.off('click').on('click', (e) => {
             markers.push(e.latlng);
@@ -68,9 +79,10 @@ let tasksManager = {
             }
         });
     },
+
     initViewTask: function (json) {
         map = L.map('map', { fullscreenControl: true, }).setView([50.4579725, 30.5026167], 10);
-        debugger;
+
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -79,8 +91,8 @@ let tasksManager = {
         let checkpoints = JSON.parse(json);
 
         checkpoints.forEach(val => {
-            var latlng = L.latLng(val.lat, val.long);
-            L.marker(latlng).addTo(map)
+            let latlng = L.latLng(val.lat, val.long);
+            L.marker(latlng).addTo(map);
         });
     }
 };

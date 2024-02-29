@@ -1,4 +1,4 @@
-﻿@model CustomerTaskViewModel
+﻿@model EditCustomerTaskViewModel
 @{
 }
 <form id="customerTasksForm" asp-controller="CustomerTask" asp-action="CreateTask" method="post">
@@ -52,5 +52,5 @@
 </form>
 
 <script>
-    tasksManager.initCrtTask();
+    tasksManager.initCrtTask('@Json.Serialize(Model.Checkpoints.Select(x => new { Lat = x.Lat, Long = x.Long }))');
 </script>

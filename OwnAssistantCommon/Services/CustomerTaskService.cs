@@ -84,7 +84,7 @@ namespace OwnAssistantCommon.Services
         /// <param name="task"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task CreateCustomerTaskAsync(CustomerTaskViewModel task, Guid userId)
+        public async Task CreateCustomerTaskAsync(EditCustomerTaskViewModel task, Guid userId)
         {
             try
             {
