@@ -1,5 +1,4 @@
-﻿@using OwnAssistantCommon.Models
-@model JrnlTasksViewModel;
+﻿@model JrnlTasksViewModel;
 @{
 }
 
@@ -48,10 +47,10 @@
                 <tr>
                     <th>#</th>
                     <th>Title</th>
-                    <th>Text</th>
                     <th>CrtDate</th>
-                    <th>Creator</th>
                     <th>Performer</th>
+                    <th>Creator</th>
+                    <th>Task date</th>
                     <th></th>
                 </tr>
             </thead>
@@ -63,11 +62,11 @@
                         <tr>
                             <td>@(i + 1)</td>
                             <td>@Model.Tasks[i].Title</td>
-                            <td>@Model.Tasks[i].Text</td>
                             <td>@Model.Tasks[i].CrtDate.ToString("dd.MM.yyyy hh:mm")</td>
-                            <td>@Model.Tasks[i].CreatorUser.Login</td>
-                            <td>@Model.Tasks[i].PerformingUser.Login</td>
-                            <td><a class="btn btn-link" asp-controller="CustomerTask" asp-action="ViewTask" asp-route-id="@Model.Tasks[i].Id">View</a></td>
+                            <td>@Model.Tasks[i].PerformerUser</td>
+                            <td>@Model.Tasks[i].CreatorUser</td>
+                            <td>@Model.Tasks[i].TaskDate.ToString("dd.MM.yyyy hh:mm")</td>
+                            <td><a class="btn btn-link" asp-controller="CustomerTask" asp-action="ViewTask" asp-route-id="@Model.Tasks[i].MainCustomerTaskId">View</a></td>
                         </tr>
                     }
                 }

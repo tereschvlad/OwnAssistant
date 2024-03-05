@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using OwnAssistantCommon.Models;
+using OwnAssistant.Models.ViewModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,7 +12,7 @@ namespace OwnAssistant.Models
     {
         public FilterJrnlTasksViewModel Filter { get; set; }
 
-        public List<CustomerTaskMainInfoDbModel> Tasks { get; set; }
+        public List<JrnlCustomerTaskViewModel> Tasks { get; set; }
 
         public IEnumerable<SelectListItem> ListUserLogin { get; set; }
 

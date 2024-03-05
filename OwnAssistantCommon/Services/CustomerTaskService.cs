@@ -20,55 +20,13 @@ namespace OwnAssistantCommon.Services
         }
 
         /// <summary>
-        /// Get created list of tasks 
+        /// Get list of task
         /// </summary>
         /// <param name="login"></param>
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public async Task<List<CustomerTaskMainInfoDbModel>> GetCreatedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate)
-        {
-            try
-            {
-                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.CreatorUser.Login == login && x.CustomerTaskDateInfos.Any(y => y.TaskDate >= startDate && y.TaskDate <= endDate));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting task for user");
-            }
-
-            return new List<CustomerTaskMainInfoDbModel>();
-        }
-
-        /// <summary>
-        /// Get tasks for performed for User
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
-        public async Task<List<CustomerTaskMainInfoDbModel>> GetPerformedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate)
-        {
-            try
-            {
-                return await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformingUser.Login == login && x.CustomerTaskDateInfos.Any(y => y.TaskDate >= startDate && y.TaskDate <= endDate));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error getting performed tasks");
-            }
-
-            return new List<CustomerTaskMainInfoDbModel>();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
-        public async Task<IEnumerable<JrnlCustomerTaskViewModel>> GetListCustomerTasksAsync(string login, DateTime startDate, DateTime endDate, bool isCreate)
+        public async Task<List<JrnlCustomerTaskViewModel>> GetListCustomerTasksAsync(string login, DateTime startDate, DateTime endDate, bool isCreate)
         {
             try
             {
@@ -84,14 +42,14 @@ namespace OwnAssistantCommon.Services
                                                                       CreatorUser = x.CreatorUser.Login,
                                                                       PerformerUser = x.PerformingUser.Login,
                                                                       MainCustomerTaskId = x.Id
-                                                                  })).SelectMany(x => x);
+                                                                  })).SelectMany(x => x).ToList();
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex, "Error getting tasks");
             }
 
-            return Enumerable.Empty<JrnlCustomerTaskViewModel>();
+            return new List<JrnlCustomerTaskViewModel>();
         }
 
         /// <summary>

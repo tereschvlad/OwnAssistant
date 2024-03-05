@@ -1,4 +1,5 @@
 ﻿using OwnAssistant.Models;
+using OwnAssistant.Models.ViewModel;
 using OwnAssistantCommon.Models;
 
 namespace OwnAssistantCommon.Interfaces
@@ -9,22 +10,14 @@ namespace OwnAssistantCommon.Interfaces
     public interface ICustomerTaskService
     {
         /// <summary>
-        /// Get created list of tasks 
+        /// Get task by parameters
         /// </summary>
         /// <param name="login"></param>
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
+        /// <param name="isCreate"></param>
         /// <returns></returns>
-        Task<List<CustomerTaskMainInfoDbModel>> GetCreatedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
-
-        /// <summary>
-        /// Get tasks for performed for User
-        /// </summary>
-        /// <param name="login"></param>
-        /// <param name="startDate"></param>
-        /// <param name="endDate"></param>
-        /// <returns></returns>
-        Task<List<CustomerTaskMainInfoDbModel>> GetPerformedListTaskForUserAsync(string login, DateTime startDate, DateTime endDate);
+        Task<List<JrnlCustomerTaskViewModel>> GetListCustomerTasksAsync(string login, DateTime startDate, DateTime endDate, bool isCreate);
 
         /// <summary>
         /// Create customer task

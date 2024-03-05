@@ -94,10 +94,7 @@ namespace OwnAssistant.Controllers
                 //var login = User.FindFirstValue(ClaimTypes.Name);
                 if (!String.IsNullOrEmpty(filter.UserName))
                 {
-                    if (filter.TaskType == (int)CustomerTaskType.Created)
-                        model.Tasks = await _customerTaskService.GetCreatedListTaskForUserAsync(filter.UserName, filter.StartDate, filter.EndDate);
-                    else
-                        model.Tasks = await _customerTaskService.GetPerformedListTaskForUserAsync(filter.UserName, filter.StartDate, filter.EndDate);
+                    model.Tasks = await _customerTaskService.GetListCustomerTasksAsync(filter.UserName, filter.StartDate, filter.EndDate, filter.TaskType == (int)CustomerTaskType.Created);
                 }
             }
             catch (Exception ex)

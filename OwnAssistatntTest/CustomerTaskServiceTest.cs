@@ -14,7 +14,7 @@ namespace OwnAssistatntTest
             var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
 
             //Act
-            var tasks = await taskServ.GetPerformedListTaskForUserAsync("bob_jones", new DateTime(2024, 1, 1), DateTime.Now);
+            var tasks = await taskServ.GetListCustomerTasksAsync("bob_jones", new DateTime(2024, 1, 1), DateTime.Now, false);
 
             //Accept
             Assert.NotNull(tasks);
@@ -28,7 +28,7 @@ namespace OwnAssistatntTest
             var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
 
             //Act
-            var tasks = await taskServ.GetCreatedListTaskForUserAsync("bob_jones", new DateTime(2024, 1, 1), DateTime.Now);
+            var tasks = await taskServ.GetListCustomerTasksAsync("bob_jones", new DateTime(2024, 1, 1), DateTime.Now, true);
 
             //Accept
             Assert.NotNull(tasks);

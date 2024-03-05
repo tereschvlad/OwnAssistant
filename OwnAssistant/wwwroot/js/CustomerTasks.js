@@ -10,16 +10,18 @@ let tasksManager = {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
-        let checkpoints = JSON.parse(json);
+        if (json) {
+            let checkpoints = JSON.parse(json);
 
-        checkpoints.forEach(val => {
-            let latlng = L.latLng(val.lat, val.long);
-            let marker = L.marker(latlng).addTo(map);
+            checkpoints.forEach(val => {
+                let latlng = L.latLng(val.lat, val.long);
+                let marker = L.marker(latlng).addTo(map);
 
-            marker.on('click', (e) => {
-                map.removeLayer(e.target);
+                marker.on('click', (e) => {
+                    map.removeLayer(e.target);
+                });
             });
-        });
+        }
 
         map.off('click').on('click', (e) => {
             markers.push(e.latlng);
