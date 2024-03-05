@@ -68,6 +68,13 @@ namespace OwnAssistantCommon.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task<CustomerTaskMainInfoDbModel> GetCustomerTaskAsync(Guid id);
+
+        /// <summary>
+        /// Remove customer task (test method for testing). Change to date close
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        Task RemoveTaskAsync(CustomerTaskMainInfoDbModel model);
         #endregion
     }
 }

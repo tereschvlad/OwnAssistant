@@ -94,12 +94,15 @@ namespace OwnAssistantCommon.Services
                         CustomerTaskDateInfos = new List<CustomerTaskDateInfoDbModel>()
                     };
 
-                    customerTask.CustomerTaskCheckpointInfos = task.Checkpoints.Select(x => new CustomerTaskCheckpointInfoDbModel()
+                    if(task.Checkpoints != null && task.Checkpoints.Any())
                     {
-                        CustomerTaskMainId = customerTask.Id,
-                        Lat = x.Lat,
-                        Long = x.Long
-                    }).ToList();
+                        customerTask.CustomerTaskCheckpointInfos = task.Checkpoints.Select(x => new CustomerTaskCheckpointInfoDbModel()
+                        {
+                            CustomerTaskMainId = customerTask.Id,
+                            Lat = x.Lat,
+                            Long = x.Long
+                        }).ToList();
+                    }
 
                     var dateTaskInfos = new List<CustomerTaskDateInfoDbModel>();
 
@@ -115,9 +118,9 @@ namespace OwnAssistantCommon.Services
                     {
                         var currentDate = task.DateFrom.Value;
 
-                        for(int i = 0; currentDate <= task.DateTo; currentDate = task.DateFrom.Value.AddDays(i))
+                        while(currentDate <= task.DateTo)
                         {
-                            if((currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday) && task.RepeationType == (int)CustomerTaskRepeationType.Weekends)
+                            if ((currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday) && task.RepeationType == (int)CustomerTaskRepeationType.Weekends)
                             {
                                 customerTask.CustomerTaskDateInfos.Add(new CustomerTaskDateInfoDbModel()
                                 {
@@ -125,7 +128,7 @@ namespace OwnAssistantCommon.Services
                                     TaskDate = currentDate
                                 });
                             }
-                            else if(!(currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday) && task.RepeationType == (int)CustomerTaskRepeationType.Weekdays)
+                            else if (!(currentDate.DayOfWeek == DayOfWeek.Saturday || currentDate.DayOfWeek == DayOfWeek.Sunday) && task.RepeationType == (int)CustomerTaskRepeationType.Weekdays)
                             {
                                 customerTask.CustomerTaskDateInfos.Add(new CustomerTaskDateInfoDbModel()
                                 {
@@ -133,14 +136,8 @@ namespace OwnAssistantCommon.Services
                                     TaskDate = currentDate
                                 });
                             }
-                            else
-                            {
-                                customerTask.CustomerTaskDateInfos.Add(new CustomerTaskDateInfoDbModel()
-                                {
-                                    CustomerTaskMainId = customerTask.Id,
-                                    TaskDate = currentDate
-                                });
-                            }
+
+                            currentDate = currentDate.AddDays(1);
                         }
                     }
                     else if(task.RepeationType == (int)CustomerTaskRepeationType.EveryWeeks || task.RepeationType == (int)CustomerTaskRepeationType.EveryMounths)
@@ -173,5 +170,25 @@ namespace OwnAssistantCommon.Services
         /// <returns></returns>
         public async Task<CustomerTaskMainInfoDbModel> GetCustomerTaskAsync(Guid id) => await _dbRepository.GetCustomerTaskAsync(id);
 
+        /// <summary>
+        /// Removing task by id. (Method for testing)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task RemoveCustomerTaskAsycnc(Guid id)
+        {
+            try
+            {
+                var task = await _dbRepository.GetCustomerTaskAsync(id);
+                if (task != null)
+                {
+                    await _dbRepository.RemoveTaskAsync(task);
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error of removing task");
+            }
+        }
     }
 }

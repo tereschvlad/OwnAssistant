@@ -97,6 +97,17 @@ namespace OwnAssistantCommon.Models
             return await _context.MainInfoTasks.Include(x => x.PerformingUser).Include(x => x.CreatorUser).Include(x => x.CustomerTaskDateInfos)
                                  .Include(x => x.CustomerTaskCheckpointInfos).FirstOrDefaultAsync<CustomerTaskMainInfoDbModel>(x => x.Id == id);
         }
+
+        /// <summary>
+        /// Remove customer task
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task RemoveTaskAsync(CustomerTaskMainInfoDbModel model)
+        {
+            _context.Remove(model);
+            await _context.SaveChangesAsync();
+        }
         #endregion
     }
 }
