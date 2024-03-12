@@ -74,17 +74,15 @@ namespace OwnAssistatntTest
             await taskServ.CreateCustomerTaskAsync(model, userId);
             var list = await taskServ.GetListCustomerTasksAsync("john_doe", new DateTime(2022, 12, 31), new DateTime(2023, 1, 2), false);
 
-            //Accept
-            Assert.NotNull(list);
-            Assert.Single(list);
-
             //Removing tasks
             foreach (var item in list)
             {
                 await taskServ.RemoveCustomerTaskAsycnc(item.MainCustomerTaskId);
             }
 
-
+            //Accept
+            Assert.NotNull(list);
+            Assert.Single(list);
         }
 
         [Fact]
@@ -109,15 +107,149 @@ namespace OwnAssistatntTest
             await taskServ.CreateCustomerTaskAsync(model, userId);
             var list = await taskServ.GetListCustomerTasksAsync("john_doe", new DateTime(2023, 1, 1), new DateTime(2023, 1, 20), false);
 
+            //Removing tasks
+            foreach (var item in list)
+            {
+                await taskServ.RemoveCustomerTaskAsycnc(item.MainCustomerTaskId);
+            }
+
             //Accept
             Assert.NotNull(list);
             Assert.Equal(4, list.Count);
+        }
+
+        [Fact]
+        public async Task CheckWeekdaysRepeating_CustomerTask()
+        {
+            //Arrange
+            var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
+
+            //Act
+            var userId = new Guid("DD1AFAB8-F852-435A-9653-6546559F8C39");
+
+            var model = new EditCustomerTaskViewModel()
+            {
+                PerformedUsers = "john_doe",
+                RepeationType = (int)CustomerTaskRepeationType.Weekdays,
+                Title = "Title",
+                Text = "Text",
+                DateFrom = new DateTime(2023, 1, 2),
+                DateTo = new DateTime(2023, 1, 16)
+            };
+
+            await taskServ.CreateCustomerTaskAsync(model, userId);
+            var list = await taskServ.GetListCustomerTasksAsync("john_doe", new DateTime(2023, 1, 1), new DateTime(2023, 1, 20), false);
 
             //Removing tasks
             foreach (var item in list)
             {
                 await taskServ.RemoveCustomerTaskAsycnc(item.MainCustomerTaskId);
             }
+
+            //Accept
+            Assert.NotNull(list);
+            Assert.Equal(11, list.Count);
+        }
+
+        [Fact]
+        public async Task CheckEveryDaysRepeating_CustomerTask()
+        {
+            //Arrange
+            var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
+
+            //Act
+            var userId = new Guid("DD1AFAB8-F852-435A-9653-6546559F8C39");
+
+            var model = new EditCustomerTaskViewModel()
+            {
+                PerformedUsers = "john_doe",
+                RepeationType = (int)CustomerTaskRepeationType.EveryDays,
+                Title = "Title",
+                Text = "Text",
+                DateFrom = new DateTime(2023, 1, 2),
+                DateTo = new DateTime(2023, 1, 16)
+            };
+
+            await taskServ.CreateCustomerTaskAsync(model, userId);
+            var list = await taskServ.GetListCustomerTasksAsync("john_doe", new DateTime(2023, 1, 1), new DateTime(2023, 1, 20), false);
+
+            //Removing tasks
+            foreach (var item in list)
+            {
+                await taskServ.RemoveCustomerTaskAsycnc(item.MainCustomerTaskId);
+            }
+
+            //Accept
+            Assert.NotNull(list);
+            Assert.Equal(15, list.Count);
+        }
+
+        [Fact]
+        public async Task CheckEveryWeeksRepeating_CustomerTask()
+        {
+            //Arrange
+            var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
+
+            //Act
+            var userId = new Guid("DD1AFAB8-F852-435A-9653-6546559F8C39");
+
+            var model = new EditCustomerTaskViewModel()
+            {
+                PerformedUsers = "john_doe",
+                RepeationType = (int)CustomerTaskRepeationType.EveryWeeks,
+                Title = "Title",
+                Text = "Text",
+                DateFrom = new DateTime(2023, 1, 2),
+                DateTo = new DateTime(2023, 1, 16),
+                TaskDate = new DateTime(2023, 1, 2)
+            };
+
+            await taskServ.CreateCustomerTaskAsync(model, userId);
+            var list = await taskServ.GetListCustomerTasksAsync("john_doe", new DateTime(2023, 1, 1), new DateTime(2023, 1, 20), false);
+
+            //Removing tasks
+            foreach (var item in list)
+            {
+                await taskServ.RemoveCustomerTaskAsycnc(item.MainCustomerTaskId);
+            }
+
+            //Accept
+            Assert.NotNull(list);
+            Assert.Equal(3, list.Count);
+        }
+
+        [Fact]
+        public async Task CheckEveryMounthsRepeating_CustomerTask()
+        {
+            //Arrange
+            var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
+
+            //Act
+            var userId = new Guid("DD1AFAB8-F852-435A-9653-6546559F8C39");
+
+            var model = new EditCustomerTaskViewModel()
+            {
+                PerformedUsers = "john_doe",
+                RepeationType = (int)CustomerTaskRepeationType.EveryMounths,
+                Title = "Title",
+                Text = "Text",
+                DateFrom = new DateTime(2023, 1, 2),
+                DateTo = new DateTime(2023, 2, 2),
+                TaskDate = new DateTime(2023, 1, 2)
+            };
+
+            await taskServ.CreateCustomerTaskAsync(model, userId);
+            var list = await taskServ.GetListCustomerTasksAsync("john_doe", new DateTime(2023, 1, 1), new DateTime(2023, 2, 20), false);
+
+            //Removing tasks
+            foreach (var item in list)
+            {
+                await taskServ.RemoveCustomerTaskAsycnc(item.MainCustomerTaskId);
+            }
+
+            //Accept
+            Assert.NotNull(list);
+            Assert.Equal(2, list.Count);
         }
     }
 }

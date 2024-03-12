@@ -136,6 +136,14 @@ namespace OwnAssistantCommon.Services
                                     TaskDate = currentDate
                                 });
                             }
+                            else if(task.RepeationType == (int)CustomerTaskRepeationType.EveryDays)
+                            {
+                                customerTask.CustomerTaskDateInfos.Add(new CustomerTaskDateInfoDbModel()
+                                {
+                                    CustomerTaskMainId = customerTask.Id,
+                                    TaskDate = currentDate
+                                });
+                            }
 
                             currentDate = currentDate.AddDays(1);
                         }
@@ -144,13 +152,15 @@ namespace OwnAssistantCommon.Services
                     {
                         var currentDate = task.TaskDate.Value;
 
-                        for (int i = 0; currentDate <= task.DateTo; currentDate = (task.RepeationType == (int)CustomerTaskRepeationType.EveryWeeks ? task.DateFrom.Value.AddDays(i * 7) : task.DateFrom.Value.AddMonths(i)))
+                        for(int i = 1; currentDate <= task.DateTo; i++)
                         {
                             customerTask.CustomerTaskDateInfos.Add(new CustomerTaskDateInfoDbModel()
                             {
                                 CustomerTaskMainId = customerTask.Id,
                                 TaskDate = currentDate
                             });
+
+                            currentDate = task.RepeationType == (int)CustomerTaskRepeationType.EveryWeeks ? task.TaskDate.Value.AddDays(i * 7) : task.TaskDate.Value.AddMonths(i);
                         }
                     }
 

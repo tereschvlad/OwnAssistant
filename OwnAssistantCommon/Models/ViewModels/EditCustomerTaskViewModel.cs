@@ -37,7 +37,7 @@ namespace OwnAssistant.Models
         [Description("Never")]
         None = 0,
 
-        [Description("Only on weekdaye")]
+        [Description("Only on weekdays")]
         Weekdays = 1,
 
         [Description("Only on weekends")]
