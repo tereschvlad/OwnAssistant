@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnAssistant", "OwnAssistant\OwnAssistant.csproj", "{6B637E1D-9A27-4B2D-9D13-830838DBC243}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OwnAssistant", "OwnAssistant\OwnAssistant.csproj", "{6B637E1D-9A27-4B2D-9D13-830838DBC243}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnAssistatntTest", "OwnAssistatntTest\OwnAssistatntTest.csproj", "{5848D051-6B71-4F39-BB06-043209B7B000}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OwnAssistatntTest", "OwnAssistatntTest\OwnAssistatntTest.csproj", "{5848D051-6B71-4F39-BB06-043209B7B000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnAssistantCommon", "OwnAssistantCommon\OwnAssistantCommon.csproj", "{87530E92-8CE0-4198-B29C-905C69718FB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OwnAssistantCommon", "OwnAssistantCommon\OwnAssistantCommon.csproj", "{87530E92-8CE0-4198-B29C-905C69718FB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OwnAssistantWorker", "OwnAssistantWorker\OwnAssistantWorker.csproj", "{2669FA68-20B1-4864-85B3-AAA1D49A4EE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{87530E92-8CE0-4198-B29C-905C69718FB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87530E92-8CE0-4198-B29C-905C69718FB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87530E92-8CE0-4198-B29C-905C69718FB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2669FA68-20B1-4864-85B3-AAA1D49A4EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2669FA68-20B1-4864-85B3-AAA1D49A4EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2669FA68-20B1-4864-85B3-AAA1D49A4EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2669FA68-20B1-4864-85B3-AAA1D49A4EE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
