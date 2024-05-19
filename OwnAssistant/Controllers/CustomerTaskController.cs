@@ -50,7 +50,7 @@ namespace OwnAssistant.Controllers
                 }),
                 ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
                 {
-                    Text = GeneralUtils.GetEnumDescription(x),
+                    Text = x.GetEnumDescription(),
                     Value = ((int)x).ToString()
                 })
             };
@@ -79,7 +79,7 @@ namespace OwnAssistant.Controllers
                 }),
                 ListTaskType = Enum.GetValues(typeof(CustomerTaskType)).Cast<CustomerTaskType>().Select(x => new SelectListItem()
                 {
-                    Text = GeneralUtils.GetEnumDescription(x),
+                    Text = x.GetEnumDescription(),
                     Value = ((int)x).ToString()
                 })
             };
@@ -122,7 +122,7 @@ namespace OwnAssistant.Controllers
 
             ViewBag.RepeatedTypes = Enum.GetValues(typeof(CustomerTaskRepeationType)).Cast<CustomerTaskRepeationType>().Select(x => new SelectListItem()
             {
-                    Text = GeneralUtils.GetEnumDescription(x),
+                    Text = x.GetEnumDescription(),
                     Value = ((int)x).ToString()
             });
 
@@ -194,7 +194,7 @@ namespace OwnAssistant.Controllers
 
                 ViewBag.RepeatedTypes = Enum.GetValues(typeof(CustomerTaskRepeationType)).Cast<CustomerTaskRepeationType>().Select(x => new SelectListItem()
                 {
-                    Text = GeneralUtils.GetEnumDescription(x),
+                    Text = x.GetEnumDescription(),
                     Value = ((int)x).ToString()
                 });
 

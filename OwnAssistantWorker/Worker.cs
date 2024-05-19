@@ -1,8 +1,13 @@
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using OwnAssistantWorker.Models;
+using System.ComponentModel;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
+using OwnAssistantCommon;
+
 
 namespace OwnAssistantWorker
 {
@@ -61,8 +66,51 @@ namespace OwnAssistantWorker
 
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Test");
+            //event processing
+            var hendler = update.Type switch
+            {
+                UpdateType.Message => "Message",
+                UpdateType.EditedMessage => "EditedMessage",
+                UpdateType.CallbackQuery => "CallbackQuery",
+                UpdateType.InlineQuery => "InlineQuery",
+                _ => "Unknown"
+            };
+            //await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Test");
+
+
         }
+
+        public async Task ResponceMessageAsync(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if(message == null || message.Text.IsNullOrEmpty())
+                {
+                    await botClient.SendTextMessageAsync(message.Chat.Id, "Send command");
+                    return;
+                }
+
+                var action = message.Text.Split(" ")[0];
+
+                //var t1 = TelegramComandType.Login.GetEnumDescription();
+
+                //switch(action.ToLower())
+                //{
+                //    case t1.ToLower():
+                //        break;
+                //}
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Telegram bot responce message, error");
+            }
+        }
+    }
+
+    public enum TelegramComandType
+    {
+        [Description("/login")]
+        Login = 0
     }
 
 }

@@ -17,7 +17,7 @@ namespace OwnAssistantCommon
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static string GetEnumDescription(Enum val)
+        public static string GetEnumDescription(this Enum val)
         {
             var info = val.GetType().GetField(val.ToString());
 
