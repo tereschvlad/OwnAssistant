@@ -1,13 +1,10 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OwnAssistantWorker.Models;
-using System.ComponentModel;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using OwnAssistantCommon;
-
 
 namespace OwnAssistantWorker
 {
@@ -66,18 +63,24 @@ namespace OwnAssistantWorker
 
         public async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
+
+
+
             //event processing
             var hendler = update.Type switch
             {
-                UpdateType.Message => "Message",
-                UpdateType.EditedMessage => "EditedMessage",
-                UpdateType.CallbackQuery => "CallbackQuery",
-                UpdateType.InlineQuery => "InlineQuery",
-                _ => "Unknown"
+                UpdateType.Message => ResponceMessageAsync(botClient, update.Message, cancellationToken),
+                UpdateType.EditedMessage => ResponceMessageAsync(botClient, update.EditedMessage, cancellationToken),
+                //UpdateType.CallbackQuery => "CallbackQuery",
+                //UpdateType.InlineQuery => "InlineQuery",
+                _ => null
             };
             //await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Test");
 
-
+            if(hendler != null)
+            {
+                await hendler;
+            }
         }
 
         public async Task ResponceMessageAsync(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
@@ -90,27 +93,41 @@ namespace OwnAssistantWorker
                     return;
                 }
 
+                //TODO: Check user into DB
+
+
                 var action = message.Text.Split(" ")[0];
 
-                //var t1 = TelegramComandType.Login.GetEnumDescription();
-
-                //switch(action.ToLower())
-                //{
-                //    case t1.ToLower():
-                //        break;
-                //}
+                switch (action)
+                {
+                    case "/login":
+                        await LoginCommandAsync(botClient, message, cancellationToken);
+                        break;
+                    case "/add_test":
+                        break;
+                    case "/get_tasts":
+                        break;
+                    default:
+                        break;
+                }
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex, "Telegram bot responce message, error");
             }
         }
-    }
 
-    public enum TelegramComandType
-    {
-        [Description("/login")]
-        Login = 0
+        private async Task LoginCommandAsync(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await botClient.SendTextMessageAsync(message.Chat.Id, $"For authorize go to {"Test_Url"}");
+            }
+            catch(Exception ex)
+            {
+
+            }
+        }
     }
 
 }
