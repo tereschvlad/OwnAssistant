@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using OwnAssistantCommon.Interfaces;
 using OwnAssistantCommon.Models;
 using OwnAssistantWorker;
 using OwnAssistantWorker.Models;
+using OwnAssistantWorker.Services;
 using Serilog;
 using Telegram.Bot.Polling;
 
@@ -17,7 +17,7 @@ try
     builder.Services.AddDbContext<DataContext>(sql => sql.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
     builder.Services.AddScoped<IDbRepository, DbRepository>();
-    builder.Services.AddTransient<IUpdateHandler, UpdateHandler>();
+    builder.Services.AddTransient<IUpdateHandler, ChatMessageHandle>();
 
     builder.Services.Configure<TelegramBotConfiguration>(config.GetSection("TelegramBotConfig"));
 

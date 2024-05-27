@@ -69,6 +69,8 @@ namespace OwnAssistantCommon.Models
 
         public RoleDbModel Role { get; set; }
 
+        public long TelegramId { get; set; }
+
         public List<CustomerTaskMainInfoDbModel> CreatedTasks { get; set; }
 
         public List<CustomerTaskMainInfoDbModel> PerformingTasks { get; set; }

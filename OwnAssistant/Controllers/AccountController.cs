@@ -49,6 +49,27 @@ namespace OwnAssistant.Controllers
             return RedirectToAction("Login", "Account");
         }
 
+        /// <summary>
+        /// Bound tg id for user
+        /// </summary>
+        /// <param name="telegramId"></param>
+        /// <returns></returns>
+        [Authorize]
+        public async Task<IActionResult> AuthoriseTelegramAccount(long telegramId)
+        {
+            try
+            {
+                var userId = new Guid(User.FindFirstValue(ClaimTypes.Sid));
+                await _accountService.BoundTelegramIdForUserAsync(telegramId, userId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error saving telegram id");
+            }
+
+            return Content("<p>Telegram id is bound</p>");
+        }
+
         private async Task SetAuthorizeCookie(UserDbModel user)
         {
             var claims = new List<Claim>

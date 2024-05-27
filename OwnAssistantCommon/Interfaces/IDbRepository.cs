@@ -37,6 +37,21 @@ namespace OwnAssistantCommon.Interfaces
         /// <returns></returns>
         Task<List<string>> GetListUserNameAsync();
 
+        /// <summary>
+        /// Get user by chat id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<UserDbModel> GetUserByChatIdAsync(long id);
+
+        /// <summary>
+        /// Bound tg id for user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="tgId"></param>
+        /// <returns></returns>
+        Task UpdateUserTgIdAsync(Guid userId, long tgId);
+
         #endregion
 
         #region For Tasks

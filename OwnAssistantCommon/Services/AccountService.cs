@@ -61,5 +61,23 @@ namespace OwnAssistantCommon.Services
 
             return new List<string>();
         }
+
+        /// <summary>
+        /// Bound tg id for user
+        /// </summary>
+        /// <param name="tgId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task BoundTelegramIdForUserAsync(long tgId, Guid userId)
+        {
+            try
+            {
+                await _dbRepository.UpdateUserTgIdAsync(userId, tgId);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error bounding Telegram id for user");
+            }
+        }
     }
 }

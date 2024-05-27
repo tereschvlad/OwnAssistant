@@ -17,5 +17,13 @@ namespace OwnAssistantCommon.Interfaces
         /// </summary>
         /// <returns></returns>
         Task<List<string>> GetListUserNameAsync();
+
+        /// <summary>
+        /// Bound tg id for user
+        /// </summary>
+        /// <param name="tgId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task BoundTelegramIdForUserAsync(long tgId, Guid userId);
     }
 }

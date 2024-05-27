@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.Extensions.Logging;
 using OwnAssistantCommon.Interfaces;
 using System.Linq.Expressions;
@@ -49,6 +48,30 @@ namespace OwnAssistantCommon.Models
         /// </summary>
         /// <returns></returns>
         public async Task<List<string>> GetListUserNameAsync() => await _context.Users.Select(x => x.Login).ToListAsync();
+
+        /// <summary>
+        /// Get user by chat id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<UserDbModel> GetUserByChatIdAsync(long id) => await _context.Users.FirstOrDefaultAsync(x => x.TelegramId == id);
+
+        /// <summary>
+        /// Bound tg id for user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="tgId"></param>
+        /// <returns></returns>
+        public async Task UpdateUserTgIdAsync(Guid userId, long tgId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if(user != null)
+            {
+                user.TelegramId = tgId;
+                await _context.SaveChangesAsync();
+            }
+        }
 
         #endregion
 
