@@ -73,7 +73,7 @@ namespace OwnAssistantWorker.Services
                     case "/login":
                         await LoginCommandAsync(botClient, message, cancellationToken);
                         break;
-                    case "/add_test":
+                    case "/add_task":
                         break;
                     case "/get_tasts":
                         break;
@@ -102,10 +102,10 @@ namespace OwnAssistantWorker.Services
                 {
                     new[]
                     {
-                        InlineKeyboardButton.WithUrl($"For authorize put the button https://localhost:44306/Account/AuthoriseTelegramAccount?telegramId={message.Chat.Id}", $"https://google.com")
+                        InlineKeyboardButton.WithUrl($"For authorize put the button", $"https://google.com")
                     }
                 });
-                await botClient.SendTextMessageAsync(message.Chat.Id, "Put for authorise", replyMarkup: inlineKeyboard);
+                await botClient.SendTextMessageAsync(message.Chat.Id, $"Put for authorise https://localhost:44306/Account/AuthoriseTelegramAccount?telegramId={message.Chat.Id}", replyMarkup: inlineKeyboard);
             }
             catch (Exception ex)
             {
