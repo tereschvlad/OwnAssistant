@@ -4,6 +4,7 @@ using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace OwnAssistantWorker.Services
 {
@@ -59,9 +60,10 @@ namespace OwnAssistantWorker.Services
                 }
 
                 var user = await _dbRepository.GetUserByChatIdAsync(message.Chat.Id);
-                if(user == null)
+                if (user == null)
                 {
                     await LoginCommandAsync(botClient, message, cancellationToken);
+                    return;
                 }
 
                 var action = message.Text.Split(" ")[0];
@@ -96,7 +98,14 @@ namespace OwnAssistantWorker.Services
         {
             try
             {
-                await botClient.SendTextMessageAsync(message.Chat.Id, $"For authorize go to {"Test_Url"}");
+                var inlineKeyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithUrl($"For authorize put the button https://localhost:44306/Account/AuthoriseTelegramAccount?telegramId={message.Chat.Id}", $"https://google.com")
+                    }
+                });
+                await botClient.SendTextMessageAsync(message.Chat.Id, "Put for authorise", replyMarkup: inlineKeyboard);
             }
             catch (Exception ex)
             {

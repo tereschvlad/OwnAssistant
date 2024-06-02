@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-OwnAssistantWorker-7bd6454d-40dc-46d6-86ef-e83320f71c12</UserSecretsId>
   </PropertyGroup>

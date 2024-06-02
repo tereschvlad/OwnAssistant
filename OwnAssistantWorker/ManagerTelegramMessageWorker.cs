@@ -1,22 +1,19 @@
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using OwnAssistantWorker.Models;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace OwnAssistantWorker
 {
-    public class Worker : BackgroundService
+    public class ManagerTelegramMessageWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<ManagerTelegramMessageWorker> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly TelegramBotConfiguration _telegramConfig;
 
         private readonly IUpdateHandler _updateHandler;
 
-        public Worker(ILogger<Worker> logger, IOptions<TelegramBotConfiguration> telegramConfig, IHttpClientFactory httpClientFactory, IUpdateHandler updateHandler)
+        public ManagerTelegramMessageWorker(ILogger<ManagerTelegramMessageWorker> logger, IOptions<TelegramBotConfiguration> telegramConfig, IHttpClientFactory httpClientFactory, IUpdateHandler updateHandler)
         {
             _logger = logger;
             _telegramConfig = telegramConfig.Value;
