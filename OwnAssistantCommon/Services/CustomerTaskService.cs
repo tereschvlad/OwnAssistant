@@ -38,7 +38,7 @@ namespace OwnAssistantCommon.Services
                                                                   {
                                                                       CrtDate = x.CrtDate,
                                                                       Title = x.Title,
-                                                                      TaskDate = y.TaskDate.Value,//TODO: correction this
+                                                                      TaskDate = y.TaskDate,//TODO: correction this
                                                                       CreatorUser = x.CreatorUser.Login,
                                                                       PerformerUser = x.PerformingUser.Login,
                                                                       MainCustomerTaskId = x.Id
@@ -111,7 +111,7 @@ namespace OwnAssistantCommon.Services
                         customerTask.CustomerTaskDateInfos.Add(new CustomerTaskDateInfoDbModel()
                         {
                             CustomerTaskMainId = customerTask.Id,
-                            TaskDate = task.TaskDate
+                            TaskDate = task.TaskDate.Value
                         });
                     }
                     else if(task.RepeationType == (int)CustomerTaskRepeationType.Weekdays || task.RepeationType == (int)CustomerTaskRepeationType.Weekends || task.RepeationType == (int)CustomerTaskRepeationType.EveryDays)

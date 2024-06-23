@@ -1,5 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using OwnAssistantCommon.Interfaces;
+using OwnAssistantCommon.Models;
 using Telegram.Bot;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -75,7 +76,8 @@ namespace OwnAssistantWorker.Services
                         break;
                     case "/add_task":
                         break;
-                    case "/get_tasts":
+                    case "/get_tasks":
+                        await GettingTasksAsync(botClient, message, user, cancellationToken);
                         break;
                     default:
                         break;
@@ -109,7 +111,32 @@ namespace OwnAssistantWorker.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error login telegram account");
+                _logger.LogError(ex,"Error login telegram account");
+            }
+        }
+
+        private async Task GettingTasksAsync(ITelegramBotClient botClient, Message message, UserDbModel user, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var props = message.Text.Split(' ');
+                if(props.Length > 1)
+                {
+
+                }
+                else
+                {
+                    var tasks = await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformerId == user.Id /*&& x.CustomerTaskDateInfos.Any(y => y.TaskDate.Date == DateTime.Today)*/);
+
+                    foreach(var task in tasks)
+                    {
+                        await botClient.SendTextMessageAsync(message.Chat.Id, $"Title: {task.Title}\nNote: {task.Text}\nCreator: {task.CreatorUser.Login}");
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex,"Error getting tasks for telegram");
             }
         }
     }
