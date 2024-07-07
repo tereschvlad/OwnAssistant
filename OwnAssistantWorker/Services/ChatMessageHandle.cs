@@ -71,6 +71,9 @@ namespace OwnAssistantWorker.Services
 
                 switch (action)
                 {
+                    case "/help":
+                        await SendHelpCommands(botClient, message, cancellationToken);
+                        break;
                     case "/login":
                         await LoginCommandAsync(botClient, message, cancellationToken);
                         break;
@@ -115,6 +118,14 @@ namespace OwnAssistantWorker.Services
             }
         }
 
+        /// <summary>
+        /// Send tasks for user
+        /// </summary>
+        /// <param name="botClient"></param>
+        /// <param name="message"></param>
+        /// <param name="user"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         private async Task GettingTasksAsync(ITelegramBotClient botClient, Message message, UserDbModel user, CancellationToken cancellationToken)
         {
             try
@@ -122,21 +133,84 @@ namespace OwnAssistantWorker.Services
                 var props = message.Text.Split(' ');
                 if(props.Length > 1)
                 {
-
+                    //to do actions with filters
                 }
                 else
                 {
-                    var tasks = await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformerId == user.Id /*&& x.CustomerTaskDateInfos.Any(y => y.TaskDate.Date == DateTime.Today)*/);
+                    var tasks = await _dbRepository.GetListOfTaskByFilterAsync(x => x.PerformerId == user.Id && x.CustomerTaskDateInfos.Any(y => y.TaskDate.Date == DateTime.Today));
 
                     foreach(var task in tasks)
                     {
-                        await botClient.SendTextMessageAsync(message.Chat.Id, $"Title: {task.Title}\nNote: {task.Text}\nCreator: {task.CreatorUser.Login}");
+                        var text = $"Title: {task.Title}" +
+                                   $"\nNote: {task.Text}" +
+                                   $"\nCreator: {task.CreatorUser.Login}" +
+                                   $"\nTask date: {task.CustomerTaskDateInfos.FirstOrDefault().TaskDate.ToShortDateString()}" +
+                                   $"\nCreator: {task.CreatorUser.Login}";
+
+                        await botClient.SendTextMessageAsync(message.Chat.Id, text);
+                        if (task.CustomerTaskCheckpointInfos != null && task.CustomerTaskCheckpointInfos.Any())
+                        {
+                            foreach(var checkPoint in task.CustomerTaskCheckpointInfos)
+                            {
+                                await botClient.SendLocationAsync(message.Chat.Id, (double)checkPoint.Lat, (double)checkPoint.Long);
+                            }
+                        }
                     }
                 }
             }
             catch(Exception ex)
             {
                 _logger.LogError(ex,"Error getting tasks for telegram");
+            }
+        }
+
+        /// <summary>
+        /// Send url for adding task
+        /// </summary>
+        /// <param name="botClient"></param>
+        /// <param name="message"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task AddTaskAsync(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var inlineKeyboard = new InlineKeyboardMarkup(new[]
+                {
+                    new[]
+                    {
+                        InlineKeyboardButton.WithUrl($"For adding task put the button", $"https://google.com")
+                    }
+                });
+                await botClient.SendTextMessageAsync(message.Chat.Id, $"Put for adding task https://localhost:44306/CustomerTask/CreateTask", replyMarkup: inlineKeyboard);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error adding tasks from telegram");
+            }
+        }
+
+        /// <summary>
+        /// Get all commands
+        /// </summary>
+        /// <param name="botClient"></param>
+        /// <param name="message"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task SendHelpCommands(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var text = "/help - general command for getting all commands" +
+                           "\n/login - authorise in bot" +
+                           "\n/add_task - adding task" +
+                           "\n/get_tasks - getting tasks";
+
+                await botClient.SendTextMessageAsync(message.Chat.Id, text);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error adding tasks from telegram");
             }
         }
     }

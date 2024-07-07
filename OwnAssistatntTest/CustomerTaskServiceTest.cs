@@ -44,7 +44,7 @@ namespace OwnAssistatntTest
             var taskServ = Utils.GetRequiredService<ICustomerTaskService>();
 
             //Act
-            var task = await taskServ.GetCustomerTaskAsync(new Guid("3A769FB7-C46C-435C-824F-0ADB536C9227"));
+            var task = await taskServ.GetCustomerTaskAsync(new Guid("E256CA9B-73A2-4AA8-9C37-5EFB1657AF0B"));
 
             //Accept
             Assert.NotNull(task);

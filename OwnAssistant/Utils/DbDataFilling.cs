@@ -82,9 +82,6 @@ namespace OwnAssistant.Utils
 
             if (!context.MainInfoTasks.Any())
             {
-
-
-
                 var user1 = context.Users.FirstOrDefault(x => x.Id == new Guid("dda5b335-580f-414c-b8a2-80f3523950e6"));
                 var user2 = context.Users.FirstOrDefault(x => x.Id == new Guid("52fefe38-b35a-4540-a85d-56294ac86fc0"));
                 var user3 = context.Users.FirstOrDefault(x => x.Id == new Guid("dd1afab8-f852-435a-9653-6546559f8c39"));
