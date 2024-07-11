@@ -31,8 +31,6 @@ namespace OwnAssistantWorker.Services
             {
                 UpdateType.Message => ResponceMessageAsync(botClient, update.Message, cancellationToken),
                 UpdateType.EditedMessage => ResponceMessageAsync(botClient, update.EditedMessage, cancellationToken),
-                //UpdateType.CallbackQuery => "CallbackQuery",
-                //UpdateType.InlineQuery => "InlineQuery",
                 _ => null
             };
             //await botClient.SendTextMessageAsync(update.Message.Chat.Id, "Test");
