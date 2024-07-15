@@ -42,8 +42,7 @@ namespace OwnAssistantWorker
                             var text = $"Title: {task.Title}" +
                                        $"\nNote: {task.Text}" +
                                        $"\nCreator: {task.CreatorUser.Login}" +
-                                       $"\nTask date: {task.CustomerTaskDateInfos.FirstOrDefault().TaskDate.ToShortDateString()}" +
-                                       $"\nCreator: {task.CreatorUser.Login}";
+                                       $"\nTask date: {task.CustomerTaskDateInfos.FirstOrDefault().TaskDate.ToShortDateString()}";
 
                             await client.SendTextMessageAsync(task.PerformingUser.TelegramId, text);
 
