@@ -22,6 +22,7 @@ try
     builder.Services.Configure<TelegramBotConfiguration>(config.GetSection("TelegramBotConfig"));
 
     builder.Services.AddHostedService<ManagerTelegramMessageWorker>();
+    builder.Services.AddHostedService<TaskManagerSenderWorker>();
 
     builder.Services.AddHttpClient("telegram_bot_connection");
 

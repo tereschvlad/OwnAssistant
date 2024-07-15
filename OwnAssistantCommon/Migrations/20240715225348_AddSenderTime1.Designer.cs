@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OwnAssistantCommon.Models;
 
@@ -11,9 +12,11 @@ using OwnAssistantCommon.Models;
 namespace OwnAssistantCommon.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240715225348_AddSenderTime1")]
+    partial class AddSenderTime1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +56,6 @@ namespace OwnAssistantCommon.Migrations
                     b.Property<Guid>("CustomerTaskMainId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("IsSendedAlert")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("TaskDate")
                         .HasColumnType("datetime2");
 
@@ -79,6 +79,9 @@ namespace OwnAssistantCommon.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("OnRegularSending")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("PerformerId")
                         .HasColumnType("uniqueidentifier");

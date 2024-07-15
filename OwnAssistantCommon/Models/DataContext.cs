@@ -124,6 +124,8 @@ namespace OwnAssistantCommon.Models
         public CustomerTaskMainInfoDbModel CustomerTaskMainInfo { get; set; }
 
         public DateTime TaskDate { get; set; }
+
+        public bool IsSendedAlert { get; set; }
     }
 
     /// <summary>

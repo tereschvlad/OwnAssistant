@@ -122,6 +122,28 @@ namespace OwnAssistantCommon.Models
         }
 
         /// <summary>
+        /// Update customer task 
+        /// </summary>
+        /// <param name="customerTask"></param>
+        /// <returns></returns>
+        public async Task UpdateCustomerTaskAsync(CustomerTaskMainInfoDbModel customerTask)
+        {
+            _context.Entry<CustomerTaskMainInfoDbModel>(customerTask).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Update customer task date info 
+        /// </summary>
+        /// <param name="dateInfo"></param>
+        /// <returns></returns>
+        public async Task UpdateDateInfoTaskAsync(CustomerTaskDateInfoDbModel dateInfo)
+        {
+            _context.Entry<CustomerTaskDateInfoDbModel>(dateInfo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        /// <summary>
         /// Remove customer task
         /// </summary>
         /// <param name="model"></param>

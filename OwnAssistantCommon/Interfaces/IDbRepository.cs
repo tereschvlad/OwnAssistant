@@ -1,4 +1,5 @@
-﻿using OwnAssistantCommon.Models;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using OwnAssistantCommon.Models;
 using System.Linq.Expressions;
 
 namespace OwnAssistantCommon.Interfaces
@@ -83,6 +84,20 @@ namespace OwnAssistantCommon.Interfaces
         /// <param name="id"></param>
         /// <returns></returns>
         Task<CustomerTaskMainInfoDbModel> GetCustomerTaskAsync(Guid id);
+
+        /// <summary>
+        /// Update customer task 
+        /// </summary>
+        /// <param name="customerTask"></param>
+        /// <returns></returns>
+        Task UpdateCustomerTaskAsync(CustomerTaskMainInfoDbModel customerTask);
+
+        /// <summary>
+        /// Update customer task date info 
+        /// </summary>
+        /// <param name="dateInfo"></param>
+        /// <returns></returns>
+        Task UpdateDateInfoTaskAsync(CustomerTaskDateInfoDbModel dateInfo);
 
         /// <summary>
         /// Remove customer task (test method for testing). Change to date close
