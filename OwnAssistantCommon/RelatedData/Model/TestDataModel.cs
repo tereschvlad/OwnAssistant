@@ -61,6 +61,8 @@ namespace OwnAssistantCommon.RelatedData.Model
     {
         public string HashSum { get; set; }
 
+        public Guid UniqBlockIndent { get; set; }
+
         public string GetHashSum()
         {
             string hashDataLine = String.Empty;
@@ -79,6 +81,12 @@ namespace OwnAssistantCommon.RelatedData.Model
 
             return Encoding.Default.GetString(hashByte);
         }
+
+        /// <summary>
+        /// Set hech sum into prop
+        /// </summary>
+        public void SetHachSum() => HashSum = GetHashSum();
+
     }
 
     public class ReverseHashCustomAttribute : Attribute
