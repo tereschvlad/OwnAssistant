@@ -9,7 +9,7 @@ using Ardalis.Result;
 
 namespace OwnAssistantCommon.RelatedData.Model
 {
-    public class TestDataModel : UtilsHashSum
+    public class TestDataModel : IncrementalDataUtilsModel
     {
         public string Id { get; set; }
 
@@ -27,7 +27,7 @@ namespace OwnAssistantCommon.RelatedData.Model
 
     }
 
-    public class ChildFirstTestDataModel : UtilsHashSum
+    public class ChildFirstTestDataModel : IncrementalDataUtilsModel
     {
         public string Id { get; set; }
 
@@ -44,7 +44,7 @@ namespace OwnAssistantCommon.RelatedData.Model
         public double? MiddleSalary { get; set; }
     }
 
-    public class SecondChildTestDataModel : UtilsHashSum
+    public class SecondChildTestDataModel : IncrementalDataUtilsModel
     {
         public string Id { get; set; }
 
@@ -57,11 +57,26 @@ namespace OwnAssistantCommon.RelatedData.Model
         public int Index { get; set; }
     }
 
-    public class UtilsHashSum
+    public class IncrementalDataUtilsModel
     {
-        public string HashSum { get; set; }
+        private string hashSum;
+        public string HashSum 
+        { 
+            get
+            {
+                if (String.IsNullOrEmpty(hashSum))
+                {
+                    hashSum = GetHashSum();
+                }
+
+                return hashSum;
+            }
+
+        }
 
         public Guid UniqBlockIndent { get; set; }
+
+        public Guid PreviousUniqBlockIdent { get; set; }
 
         public string GetHashSum()
         {
@@ -81,11 +96,6 @@ namespace OwnAssistantCommon.RelatedData.Model
 
             return Encoding.Default.GetString(hashByte);
         }
-
-        /// <summary>
-        /// Set hech sum into prop
-        /// </summary>
-        public void SetHachSum() => HashSum = GetHashSum();
 
     }
 

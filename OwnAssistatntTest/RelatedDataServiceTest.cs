@@ -19,7 +19,6 @@ namespace OwnAssistatntTest
                 Name = "Alice Johnson",
                 Email = "alice.johnson@example.com",
                 Phone = "123-456-7890",
-                HashSum = "hashsum1",
                 FirstChildList = new List<ChildFirstTestDataModel>
             {
                 new ChildFirstTestDataModel
@@ -65,7 +64,6 @@ namespace OwnAssistatntTest
                 Name = "Alice Johnson",
                 Email = "alice.johnson@example.com",
                 Phone = "123-456-7890",
-                HashSum = "hashsum1",
                 FirstChildList = new List<ChildFirstTestDataModel>
             {
                 new ChildFirstTestDataModel
@@ -112,7 +110,6 @@ namespace OwnAssistatntTest
                 Name = "Bob Smith",
                 Email = "bob.smith@example.com",
                 Phone = "098-765-4321",
-                HashSum = "hashsum2",
                 FirstChildList = new List<ChildFirstTestDataModel>
             {
                 new ChildFirstTestDataModel
@@ -158,7 +155,6 @@ namespace OwnAssistatntTest
                 Name = "Bob Smith",
                 Email = "bob.smith@example.com",
                 Phone = "098-765-4321",
-                HashSum = "hashsum2",
                 FirstChildList = new List<ChildFirstTestDataModel>
             {
                 new ChildFirstTestDataModel
