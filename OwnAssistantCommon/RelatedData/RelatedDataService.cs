@@ -35,6 +35,30 @@ namespace OwnAssistantCommon.RelatedData
 
     public static class ListRelatedDataExtensions
     {
+        public static void DefineBlockIndentRelatedDataType<T>(this IEnumerable<T> currentData, IEnumerable<T> previousData, Func<T, bool> comparison) where T : IncrementalDataUtilsModel 
+        {
+            if (currentData.Any())
+            {
+                foreach (var item in currentData)
+                {
+                    var prev = previousData.FirstOrDefault(comparison);
+
+                    if(prev != null)
+                    {
+                        item.PreviousUniqBlockIdent = prev.UniqBlockIndent;
+
+                        if (item.HashSum == prev.HashSum)
+                            item.UniqBlockIndent = prev.UniqBlockIndent;
+                        else
+                            item.UniqBlockIndent = Guid.NewGuid();
+                    }
+                    else
+                        item.UniqBlockIndent = Guid.NewGuid();
+                }
+            }
+            
+        }
+
         public static IEnumerable<TestDataModel> GetAbsentRelatedData(this IEnumerable<TestDataModel> currentData, IEnumerable<TestDataModel> previousData, IEqualityComparer<TestDataModel> equality)
         {
             return currentData.Except(previousData, equality);

@@ -78,6 +78,8 @@ namespace OwnAssistantCommon.RelatedData.Model
 
         public Guid PreviousUniqBlockIdent { get; set; }
 
+        public IncrementalDataType IncrementalDataType { get; set; }
+
         public string GetHashSum()
         {
             string hashDataLine = String.Empty;
@@ -96,7 +98,18 @@ namespace OwnAssistantCommon.RelatedData.Model
 
             return Encoding.Default.GetString(hashByte);
         }
+    }
 
+    /// <summary>
+    /// Type of related data
+    /// </summary>
+    public enum IncrementalDataType
+    {
+        None = 0,
+        New = 1,
+        Modified = 2,
+        Removed = 3,
+        Repeated = 4
     }
 
     public class ReverseHashCustomAttribute : Attribute
