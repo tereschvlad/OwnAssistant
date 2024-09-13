@@ -1,15 +1,9 @@
-﻿using NuGet.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using System.Security.Cryptography;
-using Ardalis.Result;
 
 namespace OwnAssistantCommon.RelatedData.Model
 {
-    public class TestDataModel : IncrementalDataUtilsModel
+    public class TestDataModel : GeneralRelatedPackageDataModel
     {
         public string Id { get; set; }
 
@@ -27,7 +21,7 @@ namespace OwnAssistantCommon.RelatedData.Model
 
     }
 
-    public class ChildFirstTestDataModel : IncrementalDataUtilsModel
+    public class ChildFirstTestDataModel : GeneralRelatedPackageDataModel
     {
         public string Id { get; set; }
 
@@ -44,7 +38,7 @@ namespace OwnAssistantCommon.RelatedData.Model
         public double? MiddleSalary { get; set; }
     }
 
-    public class SecondChildTestDataModel : IncrementalDataUtilsModel
+    public class SecondChildTestDataModel : GeneralRelatedPackageDataModel
     {
         public string Id { get; set; }
 
@@ -55,65 +49,5 @@ namespace OwnAssistantCommon.RelatedData.Model
         public string City { get; set; }
 
         public int Index { get; set; }
-    }
-
-    public class IncrementalDataUtilsModel
-    {
-        private string hashSum;
-        public string HashSum 
-        { 
-            get
-            {
-                if (String.IsNullOrEmpty(hashSum))
-                {
-                    hashSum = GetHashSum();
-                }
-
-                return hashSum;
-            }
-
-        }
-
-        public Guid UniqBlockIndent { get; set; }
-
-        public Guid PreviousUniqBlockIdent { get; set; }
-
-        public IncrementalDataType IncrementalDataType { get; set; }
-
-        public string GetHashSum()
-        {
-            string hashDataLine = String.Empty;
-
-            var props = (this).GetType().GetProperties();
-
-            if(props.Any(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(ReverseHashCustomAttribute))))
-            {
-                hashDataLine = props.Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(ReverseHashCustomAttribute)))
-                              .Select(x => x.GetValue(this).ToString()).Aggregate((x, y) => x + " " + y);
-            }
-
-            var textByte = Encoding.Default.GetBytes(hashDataLine);
-
-            var hashByte = MD5.HashData(textByte);
-
-            return Encoding.Default.GetString(hashByte);
-        }
-    }
-
-    /// <summary>
-    /// Type of related data
-    /// </summary>
-    public enum IncrementalDataType
-    {
-        None = 0,
-        New = 1,
-        Modified = 2,
-        Removed = 3,
-        Repeated = 4
-    }
-
-    public class ReverseHashCustomAttribute : Attribute
-    {
-
     }
 }

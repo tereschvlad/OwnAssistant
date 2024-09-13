@@ -1,74 +1,89 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using OwnAssistantCommon.RelatedData.Model;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OwnAssistantCommon.RelatedData.Model;
 
 namespace OwnAssistantCommon.RelatedData
 {
     public static class ListRelatedDataExtensions
     {
-        public static void DefineBlockIndentRelatedData<T>(this IEnumerable<T> currentData, IEnumerable<T> previousData, Func<T, bool> comparison) where T : IncrementalDataUtilsModel 
+        /// <summary>
+        /// Get new package of related data. Get enumerable related data with uniq block ident, with refer on previous data block and data type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="currentData"></param>
+        /// <param name="previousData"></param>
+        /// <param name="comparisonF"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IEnumerable<T> GetNewDataPacket<T>(this IEnumerable<T> currentData, IEnumerable<T> previousData, Func<T, T, bool> comparisonF) where T : GeneralRelatedPackageDataModel
         {
-            if (currentData.Any())
+            if (currentData == null && previousData == null)
             {
-                foreach (var item in currentData)
+                //Todo: correct error
+                throw new ArgumentNullException(nameof(currentData));
+            }
+
+            if (currentData == null || !currentData.Any())
+            {
+                return previousData.Select(x =>
                 {
-                    var prev = previousData.FirstOrDefault(comparison);
+                    x.PreviousUniqBlockIdent = x.UniqBlockIndent;
+                    x.UniqBlockIndent = Guid.NewGuid();
+                    x.IncrementalDataType = IncrementalDataType.Removed;
+                    return x;
+                });
+            }
+            else if (previousData == null || !previousData.Any())
+            {
+                return currentData.Select(x =>
+                {
+                    x.PreviousUniqBlockIdent = null;
+                    x.UniqBlockIndent = Guid.NewGuid();
+                    x.IncrementalDataType = IncrementalDataType.New;
+                    return x;
+                });
+            }
+            else
+            {
+                if(comparisonF == null)
+                {
+                    //Todo: correct error
+                    throw new ArgumentNullException(nameof(comparisonF));
+                }
 
-                    if(prev != null)
+                List<T> newPackage = new List<T>();
+
+                foreach(var currItem in currentData)
+                {
+                    var prev = previousData.FirstOrDefault(x => comparisonF(x, currItem));
+
+                    if (prev == null)
                     {
-                        item.PreviousUniqBlockIdent = prev.UniqBlockIndent;
-
-                        if (item.HashSum == prev.HashSum)
-                        {
-                            item.UniqBlockIndent = prev.UniqBlockIndent;
-                            item.IncrementalDataType = IncrementalDataType.Repeated;
-                        }
-                        else
-                        {
-                            item.UniqBlockIndent = Guid.NewGuid();
-                            item.IncrementalDataType = IncrementalDataType.Modified;
-                        }   
+                        currItem.PreviousUniqBlockIdent = null;
+                        currItem.UniqBlockIndent = Guid.NewGuid();
+                        currItem.IncrementalDataType = IncrementalDataType.New;
                     }
                     else
                     {
-                        item.UniqBlockIndent = Guid.NewGuid();
-                        item.IncrementalDataType = IncrementalDataType.New;
+                        
+                        if (currItem.HashSum == prev.HashSum)
+                        {
+                            currItem.UniqBlockIndent = prev.UniqBlockIndent;
+                            currItem.PreviousUniqBlockIdent = prev.UniqBlockIndent;
+                            currItem.IncrementalDataType = IncrementalDataType.Repeated;
+                        }
+                        else
+                        {
+                            currItem.UniqBlockIndent = Guid.NewGuid();
+                            currItem.PreviousUniqBlockIdent = prev.UniqBlockIndent;
+                            currItem.IncrementalDataType = IncrementalDataType.Modified;
+                        }
                     }
+
+                    newPackage.Add(currItem);
                 }
+
+                newPackage.AddRange(previousData.Where(x => !currentData.Any(y => comparisonF(x, y))));
+                return newPackage;
             }
         }
-
-        public static IEnumerable<T> GetRemovedRelatedData<T>(this IEnumerable<T> currentData, IEnumerable<T> previousData, IEqualityComparer<T> equality) where T : IncrementalDataUtilsModel
-        {
-            var removed = previousData.Except(currentData, equality);
-
-            foreach(var item in removed)
-            {
-                item.PreviousUniqBlockIdent = item.UniqBlockIndent;
-                item.UniqBlockIndent = Guid.NewGuid();
-                item.IncrementalDataType = IncrementalDataType.Removed;
-            }
-
-            return removed;
-        }
     }
-
-    public class EqualityComparerAbsentRelatedData : IEqualityComparer<TestDataModel>
-    {
-        public bool Equals(TestDataModel x, TestDataModel y)
-        {
-            return x.PreviousUniqBlockIdent == y.UniqBlockIndent && x.HashSum == y.HashSum;
-        }
-
-        public int GetHashCode(TestDataModel obj)
-        {
-            return obj.GetHashCode();
-        }
-    }
-
 }
